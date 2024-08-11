@@ -21,7 +21,7 @@ class: inverse, middle
 
 
 .font100[
-Uijeong Hwang
+Uijeong "UJ" Hwang
 
 8/24/2024
 ]
@@ -112,7 +112,7 @@ exclude: true
 * Why use it?
     * **Consistency**: Everyone gets the same R version and packages.
     * **Isolation**: A Docker container is an isolated environment for your code.
-    * **Popularity**: The most-used developer tool in [Stack Overflow 2024 survey](https://survey.stackoverflow.co/2024/technology#1-other-tools).
+    * **Popularity**: The most-used "other" tool for developers according to [Stack Overflow 2024 survey](https://survey.stackoverflow.co/2024/technology#1-other-tools).
 ]
 
 ```{r echo=FALSE, out.width='70%'}

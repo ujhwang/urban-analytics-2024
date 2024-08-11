@@ -21,7 +21,7 @@ class: inverse, middle
 
 
 .font100[
-Uijeong Hwang
+Uijeong "UJ" Hwang
 
 8/26/2024
 ]
@@ -952,7 +952,7 @@ leafsync::sync(a,b)
 ## Predicates
 
 ```{r, echo=F}
-knitr::include_graphics("https://geocompr.robinlovelace.net/05-geometry-operations_files/figure-html/venn-clip-1.png")
+knitr::include_graphics("img/spatial-relations.png")
 ```
 
 ---

@@ -20,7 +20,7 @@ class: middle, inverse
 # Data for Urban Analytics
 
 .font100[
-Uijeong Hwang
+Uijeong "UJ" Hwang
 
 8/28/2024
 ]
