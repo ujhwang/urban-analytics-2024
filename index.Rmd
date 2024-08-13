@@ -203,16 +203,16 @@ weeks %>%
 5. Of course, you can ask questions to us anytime, inside or outside classroom. I strongly encourage you to utilize our office hours as another learning opportunity.
 
 # Grading breakdown
-There are three major assignments, five mini assignments, and one final team project. Only four out of the five mini assignments will be counted towards the final grade. The team project presentation is based on PowerPoint slides (or other presentation tool of your choice.) The team project report should be a web document rendered from R Markdown (or other tool of your choice).
+There are five mini assignments, three major assignments, and one team project. Only four out of the five mini assignments will be counted towards the final grade. The team project presentation is based on PowerPoint slides (or other presentation tool of your choice.) The team project report should be a web document rendered from R Markdown (or other tool of your choice).
 
 ```{r echo=F}
-data.frame('Assignment Type' = c("Team Project Presentation & Report",
+data.frame('Assignment Type' = c('Mini Assignments (4 out of 5)', 
                                  'Major Assignments', 
-                                 'Mini Assignments (4 out of 5)', 
+                                 "Team Project Presentation & Report",
                                  "Participation"),
-           'Percent' = c("30%",
+           'Percent' = c("20% (5% each x 4)", 
                          "45% (15% each x 3)", 
-                         "20% (5% each x 4)", 
+                         "30%",
                          "5%")) %>% 
   kbl() %>% 
   kable_styling(bootstrap_options = c("condensed", "responsive"))
