@@ -228,17 +228,29 @@ data.frame('Assignment Type' = c('Mini Assignments (4 out of 5)',
 #Course Logistics
 
 ###Platform
-* R Studio (almost entirely)
+* RStudio (almost entirely)
 * A Docker image will be shared
+
+### Each module consists of
+* One or two lecture sessions
+* Two lab sessions
+
+### For each lab sessions, you will be given
+* One incomplete RMarkdown script
+* One HTML document generated from the fully completed RMarkdown script
+
+---
+#Course Logistics
+
+###Office hour
+* Thursday 4:30-6:30pm by appointment
+* Online (Google Meet)
+* You can find the link in the syllabus
 
 ###Communication
 * Canvas
 * Discussion Board on Canvas
 * emails (mostly through CANVAS)
-
-### Each module consists of
-* 1 or 2 lecture sessions
-* 2 lab sessions
 
 ---
 # Course Logistics
