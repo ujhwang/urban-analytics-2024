@@ -23,7 +23,7 @@ class: inverse, middle
 .font100[
 Uijeong "UJ" Hwang
 
-8/24/2024
+8/21/2024
 ]
 
 ```{r, include=F}
@@ -50,6 +50,7 @@ nice_table <- function(df, height="150px"){
 ```{r, include=F}
 library(xaringanthemer)
 library(sf)
+library(tmap)
 library(tidyverse)
 library(leaflet)
 library(tmap)
@@ -62,52 +63,63 @@ library(kableExtra)
 
 * R has a rich ecosystem -- 12,000+ packages available in CRAN (Comprehensive R Archive Network).
 
-* Using **tidyverse** packages, you can easily handle/analyze data and visualize/communicate findings.
 
-* Using **sf** package, you can (almost) replace GIS applications, such as QGIS or ArcMAP.
+```{r echo=F, out.width='85%'}
+knitr::include_graphics("img/r_viz_example.png")
+```
 
-* It is completely free to use.
+---
+## Tidyverse
+* `tidyverse` is a collection of data science packages that allows you to easily handle/analyze data and visualize/communicate findings.
+```{r echo=F, out.width='100%'}
+knitr::include_graphics("img/tidyverse.png")
+```
+
+---
+## sf: spatial data handling and analysis
+* sf stands for **Simple features** which refers to a formal standard that describes how objects in the real world can be represented in computers.
+* The standard is widely implemented in spatial databases (e.g., PostGIS) as well as commercial GIS (e.g., ArcGIS).
+* The package allows you to:
+  * read/write/convert spatial data
+  * manipulate sf geometries
+  * perform spatial operations and analysis
+
+---
+## tmap: thematic map
+```{r, out.width='100%'}
+data("World")
+
+tmap_mode("view")
+
+tm_shape(World) +
+  tm_polygons(col = "life_exp")
+```
 
 
 ---
-exclude: true
+## RStudio
+* To use R, you need to install R (language) and RStudio (code editor).
 
-
-## What is R?
-
-
-.mid[
-* R makes communicating your data and findings easy through R Markdown, Xaringan slide, etc. 
-
-* You can also create [**dashboards**](https://shiny.rstudio.com/gallery/india-blood-banks.html), blog posts with interactive maps and charts.
-]
-
-* You can easily post your work online with just one click in RStudio.
-
-![covid mobility data](https://tilburgsciencehub.com/examples/images/demo_app.png)
-<br>
+```{r echo=F, out.width='90%'}
+knitr::include_graphics("https://datacarpentry.org/genomics-r-intro/fig/rstudio_session_4pane_layout.png")
+```
 
 ---
-exclude: true
+## Setting up R environment
+### Option 1: On your local machine
+* Install R
+* Install RStudio
+* Open Rstudio and install `tidyverse`, `sf`, and `tmap`, core packages for this course
+  * `install.packages(c('tidyverse', 'sf', 'tmap'))`
 
-
-## What is R studio?
-
-* R-Studio is a code editor developed for R. 
-
-* R is a language, just like any other language (e.g., English, French etc). You can write R code in any text editor.
-
-* E.g., you can write your English report in Windows Notepad, but people usually use MS Word because it provides convenient functions.
-
-
-.center[
-### *R-Studio is like MS Word for R language.*
-]
+### Option 2: Using Docker
+* Windows or MacOS with Intel chips only
+* You will use a Docker image with all R packages for the class pre-installed
 
 ---
-## First thing to do: setting up Docker
+## Docker
 .small[
-* We will use **Docker**, a platform that allows users to build, share, and run containerized environments.
+* **Docker** is a platform that allows users to build, share, and run containerized environments.
 
 * Why use it?
     * **Consistency**: Everyone gets the same R version and packages.
@@ -127,34 +139,62 @@ knitr::include_graphics("img/docker_popular.png")
 
 * Open the Docker Desktop.
 
-* Open a terminal.
-    * Windows: Windows key + R and run 'cmd'
-    * MacOS: cmd + space and run 'terminal'
-
-* Run **'docker pull uhwang3/cp8883'**.
-
-* Check if you see **uhwang3/cp8883** in Images tab in Docker Desktop
+![](img/docker_install.PNG)
 
 ---
 ## Setting up a Docker container for this course
+### Pull an image
 
-* Click 'Run' button.
+* Search the image: `uhwang3/cp8883_2024`
+
+* choose the right tag, and pull.
+  * Windows/MacOS with Intel chip: `latest`
+  * MacOS with M1-3 chips: `multi_platform`
+
+![](img/docker_search.PNG)
+
+---
+## Setting up a Docker container for this course
+### Run the image
+
+* Check if you see **uhwang3/cp8883** in Images tab in Docker Desktop
+
+* Click 'Run'(triangle) button.
 ![](img/docker_desktop.PNG)
 
 ---
 ## Setting up a Docker container for this course
+### Run the image
+
 .pull-left[
 .small[
 * Click 'Optional settings' and configure
     * *Container name* can be random
     * Type **8787** in *Host port*
-    * Browse *Host path* and select a local directory to bind
+    * Click three dots next to *Host path* and select a local directory to bind
     * Type **/home/rstudio** in *Container path*
     * Type **PASSWORD** in *Environment variable* and choose a password
 ]
 ]
 .pull-right[
 ![](img/docker_desktop_settings.PNG)
+]
+
+---
+## Setting up a Docker container for this course
+### If you prefer CLI
+.small[
+* Once Docker is installed, open a terminal.
+    * Windows: `Win + R` and run 'cmd'
+    * MacOS: `cmd + space` and run 'terminal'
+
+* Run the following command to pull and run an image:
+  * **`docker pull uhwang3/cp8883_2024:[tag]`**
+  * **`docker run uhwang3/cp8883_2024:[tag] -p 8787:8787 -e PASSWORD=password -v "[your_local_directory]":/home/rstudio`**
+
+* Choose the right tag:
+  * Windows/MacOS with Intel chip: `latest`
+  * MacOS with M1-3 chips: `multi_platform`
 ]
 
 ---
@@ -170,16 +210,6 @@ knitr::include_graphics("img/docker_popular.png")
 * You can later rerun the container by clicking 'Start' button
 ![](img/docker_stop.PNG)
 
----
-
-## RStudio
-
-```{r, include=F, out.height='30%'}
-knitr::include_graphics("https://datacarpentry.org/genomics-r-intro/fig/rstudio_session_4pane_layout.png")
-```
-
-
-# ![](https://datacarpentry.org/genomics-r-intro/fig/rstudio_session_4pane_layout.png)
 
 ---
 exclude: true

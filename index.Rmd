@@ -98,7 +98,7 @@ topic_col <- c(
   [HTML](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg))<br>
   Interactive Visualization 2 
   ([RMD](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg),
-  [HTML](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)) <br> <b> <font color=pink style='background-color: black'> Student Presentation of Final Project Idea and Review of Literature/Examples (Oct 2) </font></b>",# 7
+  [HTML](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)) <br> <b> <span style='color: red; background-color: white'> Student Presentation of Final Project Idea and Review of Literature/Examples (Oct 2) </span></b>",# 7
   
   "Handling Transportation Data in R
   ([Slide](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)) <br> General Transit Feed Specification ([RMD](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg),
@@ -113,7 +113,7 @@ topic_col <- c(
   [HTML](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)) <br>
   Computer Vision ([Colab](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg), [RMD](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg), [HTML](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg))",# 11
   
-  "<b><font color=pink style='background-color: black'> Student Presentation of Final Project Data, Methods, & Preliminary Results (Nov 4)</font></b> <br> Social Media Analysis ([Slide](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)) <br>",# 12
+  "<b><span style='color: red; background-color: white'> Student Presentation of Final Project Data, Methods, & Preliminary Results (Nov 4)</span></b> <br> Social Media Analysis ([Slide](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)) <br>",# 12
   
   "Getting & Processing Reddit Data in R ([RMD](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg),
   [HTML](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg))<br> Sentiment Analysis ([RMD](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg),
@@ -125,7 +125,7 @@ topic_col <- c(
   
   "Assistance with Final Project Related Issues",# 15
   
-  "<b><font color=pink style='background-color: black'> Student Presentation of Final Project (Dec 2)</font></b><br> Wrap Up"# 16
+  "<b><span style='color: red; background-color: white'> Student Presentation of Final Project (Dec 2)</span></b><br> Wrap Up"# 16
 )
 
 
@@ -178,7 +178,7 @@ assignment_col <- c(
   "[Major 3](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg) <br> (due <br> Nov 29)",# 13
   "",# 14
   "",# 15
-  "<font color=pink style='background-color: black'><b> Project Report </font><br> (due <br> Dec 06) </b>"# 16
+  "<span style='color: red; background-color: white'><b> Project Report </span><br> (due <br> Dec 06) </b>"# 16
 )
 
 weeks %>%
