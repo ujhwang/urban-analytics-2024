@@ -110,45 +110,86 @@ knitr::include_graphics("https://ujhwang.github.io/images/IDphoto_Hwang.jpg")
 
 ##The course is divided into Six Modules
 
-```{r}
-df <- data.frame(
-  Module = c("Module 0:<br>Preparation", "Module 1:<br>POI & Census","Module 2:<br>Graphic communication and storytelling"),
-  Topic = c("<ul><li>Intro to R</li><li>Docker setup</li></ul>",
-            "<ul><li>Using APIs to collect data</li><li>Data wrangling and tidying</li></ul>",
-            "<ul><li>Interactive visualization</li><li>Telling stories with data / analysis</li></ul>")
-)
-
-kable(df, escape = FALSE) %>% # escape = FALSE allows HTML in cells
-  kable_styling(font_size = 22, # Adjust font size
-                full_width = FALSE, # Adjust table width
-                position = "center", # Center the table
-                bootstrap_options = c("striped", "hover", "condensed")) %>%
-  column_spec(2, width = "20cm") # Adjust column width
-```
-
+<table style="font-size: 22px; width: 80%; margin: auto;">
+  <tr>
+    <th style="text-align: left;">Module</th>
+    <th style="text-align: left;">Topic</th>
+  </tr>
+  <tr>
+    <td>Module 0:<br>Preparation</td>
+    <td>
+      <ul>
+        <li>Intro to R</li>
+        <li>Docker setup</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>Module 1:<br>POI & Census</td>
+    <td>
+      <ul>
+        <li>Using APIs to collect data</li>
+        <li>Data wrangling and tidying</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>Module 2:<br>Graphic communication & <br>storytelling</td>
+    <td>
+      <ul>
+        <li>Interactive visualization</li>
+        <li>Telling stories with data / analysis</li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
 ---
 #The Plan for the Course
 
 ##The course is divided into Six Modules
 
-```{r}
-df <- data.frame(
-  Module = c("Module 3:<br>Transportation", "Module 4:<br>Urban image & <br>computer vision","Module 5:<br>Social media", "Module 6:<br>Data ethics"),
-  Topic = c("<ul><li>Using General Transit Feed Specification (GTFS)</li><li>Network analysis with OpenStreetMap</li></ul>",
-            "<ul><li>Sampling and processing street view images</li><li>Using Computer Vision to extract information from images</li></ul>",
-            "<ul><li>Collecting and processing text data from Reddit</li><li>Sentiment analysis</li></ul>",
-            "<ul><li>Data ethics and privacy</li></ul>")
-)
-
-kable(df, escape = FALSE) %>% # escape = FALSE allows HTML in cells
-  kable_styling(font_size = 22, # Adjust font size
-                full_width = FALSE, # Adjust table width
-                position = "center", # Center the table
-                bootstrap_options = c("striped", "hover", "condensed")) %>%
-  column_spec(2, width = "20cm") # Adjust column width
-```
-
+<table style="font-size: 22px; width: 80%; margin: auto;">
+  <tr>
+    <th style="text-align: left;">Module</th>
+    <th style="text-align: left;">Topic</th>
+  </tr>
+  <tr>
+    <td>Module 3:<br>Transportation</td>
+    <td>
+      <ul>
+        <li>Using General Transit Feed Specification (GTFS)</li>
+        <li>Network analysis with OpenStreetMap</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>Module 4:<br>Urban image & <br>computer vision</td>
+    <td>
+      <ul>
+        <li>Sampling and processing street view images</li>
+        <li>Using Computer Vision to extract information from images</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>Module 5:<br>Social media</td>
+    <td>
+      <ul>
+        <li>Collecting and processing text data from Reddit</li>
+        <li>Sentiment analysis</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>Module 6:<br>Data ethics</td>
+    <td>
+      <ul>
+        <li>Data ethics and privacy</li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
 ---
 # Deliverables and Grading Breakdown
