@@ -38,16 +38,15 @@ library(kableExtra)
 
 # General Information
 
-* **Class**: Arch West 359 | MW 5:00-6:15PM
-* **Office hours (online)**: TR 4:30-6:30PM ([link](https://urban-analytics-2024.youcanbook.me/))
+* **Class**: Arch West 359 | MW 5:00-6:15 PM
+* **Office hours (online)**: TR 4:30-6:30 PM ([link](https://urban-analytics-2024.youcanbook.me/))
 
 This course aims to introduce students to the field of urban analytics, an emerging area of study that combines new forms of data with innovative computational approaches to better understand and manage urban processes. With the increasing availability of data, we now have the opportunity to ask more complex questions about how cities function and how they impact the quality of life for residents and the environment. Throughout this course, we will explore key theories and concepts in urban analytics and provide students with foundational analytical skills in this field. By the end of the course, students will have a practical understanding of how data and advanced analytical techniques can be used to enhance city planning and management.
 
-
 # Prerequisites
-There are no prerequisites to this course, but the followings are encouraged:
+There are no prerequisites to this course, but the following is encouraged:
 
-* Basic understanding of geographic information systems (GIS) and applied statistics  
+* Basic understanding of geographic information systems (GIS) and applied statistics
 * Working knowledge of any programming language, preferably the R (or Python)
 
 # Course Goals and Learning Outcomes 
@@ -56,7 +55,7 @@ After successfully completing this course, students will:
 * List sources of data from urban areas and why each of them would be used
 * Explain what is on the cutting edge of urban analytics research
 * Describe a few types of measurements for spatial data
-* Explain characteristics of data types
+* Explain the characteristics of data types
 * Learn how to clean and manipulate spatial data using technical analysis skills 
 * Create a basic data visualization
 * Be critical about who is creating and using data
@@ -210,14 +209,14 @@ weeks %>%
 
 
 # How to succeed in this class
-1. Be prepared for occasional frustration. It’s part of learning process. However, don’t spin the wheel. You are responsible for actively searching for help. Don’t wait until the last minute (e.g., homework).
+1. Be prepared for occasional frustration. It’s part of the learning process. However, don’t spin the wheel. You are responsible for actively searching for help. Don’t wait until the last minute (e.g., homework).
 2. Read assigned book chapters/materials, review their examples and snippets, replicate their results, and repeat until you understand.
 3. Work with peers. Form a group early in the semester, and have their sharp eyes on your code. Still, you need to submit your HW individually.
-4. If you have a trouble with your code outside of class (and get frustrated), Google it. It will not only be faster and more efficient than contacting us, but trouble-shooting on your own is essential skill, particularly after you graduate. Luckily, most of the problems you may encounter in this class have been already encountered by others. You can search how they solved them in **Stack Overflow.** 
-5. Of course, you can ask questions to us anytime, inside or outside classroom. I strongly encourage you to utilize our office hours as another learning opportunity.
+4. If you have trouble with your code outside of class (and get frustrated), Google it. It will not only be faster and more efficient than contacting us, but troubleshooting on your own is an essential skill, particularly after you graduate. Luckily, most of the problems you may encounter in this class have been already encountered by others. You can search for how they solved them in **Stack Overflow**.
+5. Of course, you can ask questions to us anytime, inside or outside the classroom. I strongly encourage you to utilize our office hours as another learning opportunity.
 
 # Grading breakdown
-There are five mini assignments, three major assignments, and one team project. Only four out of the five mini assignments will be counted towards the final grade. The team project presentation is based on PowerPoint slides (or other presentation tool of your choice.) The team project report should be a web document rendered from R Markdown (or other tool of your choice).
+There are five mini-assignments, three major assignments, and one team project. Only four out of the five mini-assignments will be counted toward the final grade. The team project presentation is based on PowerPoint slides (or other presentation tools of your choice.) The team project report should be a web document rendered from R Markdown (or other tools of your choice).
 
 ```{r echo=F}
 data.frame('Assignment Type' = c('Mini Assignments (4 out of 5)', 
@@ -238,11 +237,11 @@ The final grade will be assigned as a letter grade according to the following sc
 * **A $~~~$ 100%-90%** $~~~$ Excellent (4 quality points per credit hour)
 * **B $~~~$ 89% - 80%** $~~~$ Good (3 quality points per credit hour)
 * **C $~~~$ 79% - 70%** $~~~$ Satisfactory (2 quality points per credit hour)
-* **D $~~~$ 69% - 60%** $~~~$ Passing (1 quality points per credit hour)
+* **D $~~~$ 69% - 60%** $~~~$ Passing (1 quality point per credit hour)
 * **F $~~~$ 59% $~$-$~$ 0%** $~~~$ Failure (0 quality points per credit hour)
 
-# Textbooks/resources
-There is no textbook associated with this course. I highly recommend Data Action by Sarah Williams, and Urban Analytics by Alex Singleton, Seth Spielman and David Folch is another popular textbook on the topic.
+# Textbooks/Resources
+There is no textbook associated with this course. I highly recommend Data Action by Sarah Williams, and Urban Analytics by Alex Singleton, Seth Spielman, and David Folch is another popular textbook on the topic.
 
 Here are some other free resources:
 
@@ -256,7 +255,7 @@ Cell phone use is prohibited at all times during class, except if you are using 
 There will be times in class when the instructor reserves the right to enact the “No Device Rule.” During these times, all digital devices will be required to be stored off desks so that students may concentrate on tasks or presentations. Expect that this rule will be used when your peers are presenting and during guest lectures.
 
 # Student-Faculty expectations
-At Georgia Tech, we believe that it is important to continually strive for an atmosphere of mutual respect, acknowledgement, and responsibility between faculty members and the student body. See http://www.catalog.gatech.edu/rules/21/ for an articulation of some basic expectations—that you can have of me, and that I have of you. Respect for knowledge, hard work, and cordial interactions will help build the environment we seek. Therefore, I encourage you to remain committed to the ideals of Georgia Tech while in this class.
+At Georgia Tech, we believe that it is important to continually strive for an atmosphere of mutual respect, acknowledgment, and responsibility between faculty members and the student body. See http://www.catalog.gatech.edu/rules/21/ for an articulation of some basic expectations—that you can have of me, and that I have of you. Respect for knowledge, hard work, and cordial interactions will help build the environment we seek. Therefore, I encourage you to remain committed to the ideals of Georgia Tech while in this class.
 
 # Academic integrity
 Georgia Tech aims to cultivate a community based on trust, academic integrity, and honor. Students are expected to act according to the highest ethical standards. For more information on Georgia Tech’s Academic Honor Code, please visit http://www.catalog.gatech.edu/rules/7 and https://policylibrary.gatech.edu/student-life/academic-honor-code.
