@@ -90,22 +90,22 @@ weeks$Week <- paste(weeks$Week, "<br><font size=2 color=gray>", day, "</font>")
 
 ```{r, echo=FALSE}
 topic_col <- c(
-  "Introduction: Class structure, format & expectations [(Slide)](https://ujhwang.github.io/urban-analytics-2024/Lecture/w1/introduction.html), <br> 
-  Intro to R - #1 [(Slide)](https://ujhwang.github.io/urban-analytics-2024/Lab/module_0/w1_d2_Intro_to_R_1.html)",# 1
+  "Introduction: Class structure, format & expectations [(Slides)](https://ujhwang.github.io/urban-analytics-2024/Lecture/w1/introduction.html), <br> 
+  Intro to R - #1 [(Slides)](https://ujhwang.github.io/urban-analytics-2024/Lab/module_0/w1_d2_Intro_to_R_1.html)",# 1
   
-  "Intro to R - #2 [(Slide)](https://ujhwang.github.io/urban-analytics-2024/Lab/module_0/w2_d1_Intro_to_R_2.html) <br> 
-  Data for Urban Analytics [(Slide)](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)",# 2
+  "Intro to R - #2 [(Slides)](https://ujhwang.github.io/urban-analytics-2024/Lab/module_0/w2_d1_Intro_to_R_2.html) <br> 
+  Data for Urban Analytics [(Slides)](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)",# 2
   
-  "Accessing Data via API [(Slide)](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)",# 3
+  "Accessing Data via API [(Slides)](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)",# 3
   
   "Census & Yelp API ([RMD](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg), 
-  [HTML](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)) <br> Data Wrangling [(Slide)](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)",# 4
+  [HTML](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)) <br> Data Wrangling [(Slides)](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)",# 4
   
   "Data Wrangling: Hands-on ([RMD](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg),
-  [HTML](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)) <br> Deriving Insights from Your Data [(Slide)](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)",# 5
+  [HTML](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)) <br> Deriving Insights from Your Data [(Slides)](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)",# 5
   
   "Deriving Insights from Your Data: Hands-on ([RMD](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg),
-  [HTML](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)) <br> Storytelling with Data [(Slide)](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)",# 6
+  [HTML](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)) <br> Storytelling with Data [(Slides)](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)",# 6
   
   "Interactive Visualization 1 ([RMD](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg),
   [HTML](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg))<br>
@@ -114,19 +114,19 @@ topic_col <- c(
   [HTML](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)) <br> <b> <span style='color: red; background-color: white'> Student Presentation of Final Project Idea and Review of Literature/Examples (Oct 2) </span></b>",# 7
   
   "Handling Transportation Data in R
-  ([Slide](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)) <br> General Transit Feed Specification ([RMD](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg),
+  ([Slides](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)) <br> General Transit Feed Specification ([RMD](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg),
   [HTML](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg))", # 8
   
   "Open Street Map ([RMD](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg),
   [HTML](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg))",# 9
   
-  "Urban Images & Computer Vision [(Slide)](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)<br> Applications of Computer Vision in Urban Studies [(Slide)](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)",# 10
+  "Urban Images & Computer Vision [(Slides)](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)<br> Applications of Computer Vision in Urban Studies [(Slides)](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)",# 10
   
   "Sampling & Processing Images ([RMD](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg),
   [HTML](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)) <br>
   Computer Vision ([Colab](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg), [RMD](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg), [HTML](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg))",# 11
   
-  "<b><span style='color: red; background-color: white'> Student Presentation of Final Project Data, Methods, & Preliminary Results (Nov 4)</span></b> <br> Social Media Analysis ([Slide](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)) <br>",# 12
+  "<b><span style='color: red; background-color: white'> Student Presentation of Final Project Data, Methods, & Preliminary Results (Nov 4)</span></b> <br> Social Media Analysis ([Slides](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)) <br>",# 12
   
   "Getting & Processing Reddit Data in R ([RMD](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg),
   [HTML](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg))<br> Sentiment Analysis ([RMD](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg),
@@ -134,7 +134,7 @@ topic_col <- c(
   ",# 13
   
   "Guest Lecture ([link](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg))<br>
-  Data Ethics [(Slide)](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)",# 14
+  Data Ethics [(Slides)](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)",# 14
   
   "Assistance with Final Project Related Issues",# 15
   
@@ -203,7 +203,7 @@ weeks %>%
   kable_styling(bootstrap_options = c("condensed")) %>%
   collapse_rows(columns = 1:2, valign = "top") 
 ```
-*NOTE 1: Slide = lecture Slide; RMD = R Markdown script; HTML = web document*
+*NOTE 1: Slides = lecture slides; RMD = R Markdown script; HTML = web document*
 
 *NOTE 2: The links to the class material will be updated each week.*
 
