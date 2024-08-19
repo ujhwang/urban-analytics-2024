@@ -10,8 +10,22 @@ output:
 ---
 
 <style type="text/css">
-  body{
-  font-family: Arial;
+  body {
+    font-family: Arial;
+  }
+  
+  /* Style for table text color based on dark/light mode */
+  table td, table th {
+    color: var(--text-color, black); /* Adjust this if needed */
+  }
+
+  /* You may define the color variables according to your theme */
+  body.light-mode {
+    --text-color: black;
+  }
+
+  body.dark-mode {
+    --text-color: white;
   }
 </style>
 
@@ -24,7 +38,7 @@ library(kableExtra)
 
 # General Information
 
-* **Classroom**: Room 358 in Arch-West | MW 5:00-6:15PM
+* **Class**: Arch West 359 | MW 5:00-6:15PM
 * **Office hours (online)**: TR 4:30-6:30PM ([link](https://urban-analytics-2024.youcanbook.me/))
 
 This course aims to introduce students to the field of urban analytics, an emerging area of study that combines new forms of data with innovative computational approaches to better understand and manage urban processes. With the increasing availability of data, we now have the opportunity to ask more complex questions about how cities function and how they impact the quality of life for residents and the environment. Throughout this course, we will explore key theories and concepts in urban analytics and provide students with foundational analytical skills in this field. By the end of the course, students will have a practical understanding of how data and advanced analytical techniques can be used to enhance city planning and management.

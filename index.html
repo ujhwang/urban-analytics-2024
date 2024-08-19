@@ -1912,15 +1912,25 @@ Hwang &amp; Subhro Guhathakurta
 <!-- Don't indent these lines or it will mess pre blocks indentation --> 
 <div class="page-content has-page-title">
 <style type="text/css">
-body{
+body {
 font-family: Arial;
+}
+
+table td, table th {
+color: var(--text-color, black); 
+}
+
+body.light-mode {
+--text-color: black;
+}
+body.dark-mode {
+--text-color: white;
 }
 </style>
 <div id="general-information" class="section level1">
 <h1>General Information</h1>
 <ul>
-<li><strong>Classroom</strong>: Room 358 in Arch-West | MW
-5:00-6:15PM</li>
+<li><strong>Class</strong>: Arch West 359 | MW 5:00-6:15PM</li>
 <li><strong>Office hours (online)</strong>: TR 4:30-6:30PM (<a href="https://urban-analytics-2024.youcanbook.me/">link</a>)</li>
 </ul>
 <p>This course aims to introduce students to the field of urban
@@ -1964,7 +1974,7 @@ analysis skills</li>
 </div>
 <div id="course-schedules" class="section level1">
 <h1>Course schedules</h1>
-<table class="table table-condensed" style="margin-left: auto; margin-right: auto;">
+<table class="table table-condensed" style="color: black; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -1986,7 +1996,7 @@ To do
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left;width: 12em; ">
+<td style="text-align:left;width: 12em; vertical-align: top !important;" rowspan="2">
 Module 0: <br> Preparation
 </td>
 <td style="text-align:left;">
@@ -2005,9 +2015,6 @@ Introduction: Class structure, format &amp; expectations <a href="https://ujhwan
 </td>
 </tr>
 <tr>
-<td style="text-align:left;width: 12em; ">
-Module 0: <br> Preparation
-</td>
 <td style="text-align:left;">
 2 <br><font size="2" color="gray"> Aug 26, 28 </font>
 </td>
@@ -2023,7 +2030,7 @@ Intro to R - #2 <a href="https://ujhwang.github.io/urban-analytics-2024/Lab/modu
 </td>
 </tr>
 <tr>
-<td style="text-align:left;width: 12em; ">
+<td style="text-align:left;width: 12em; vertical-align: top !important;" rowspan="3">
 Module 1: <br> POI &amp; Census
 </td>
 <td style="text-align:left;">
@@ -2038,9 +2045,6 @@ Accessing Data via API <a href="https://raw.githubusercontent.com/ujhwang/urban-
 </td>
 </tr>
 <tr>
-<td style="text-align:left;width: 12em; ">
-Module 1: <br> POI &amp; Census
-</td>
 <td style="text-align:left;">
 4 <br><font size="2" color="gray"> Sep 9, 11 </font>
 </td>
@@ -2060,9 +2064,6 @@ Census &amp; Yelp API (<a href="https://raw.githubusercontent.com/ujhwang/urban-
 </td>
 </tr>
 <tr>
-<td style="text-align:left;width: 12em; ">
-Module 1: <br> POI &amp; Census
-</td>
 <td style="text-align:left;">
 5 <br><font size="2" color="gray"> Sep 16, 18 </font>
 </td>
@@ -2081,7 +2082,7 @@ Data Wrangling: Hands-on (<a href="https://raw.githubusercontent.com/ujhwang/urb
 </td>
 </tr>
 <tr>
-<td style="text-align:left;width: 12em; ">
+<td style="text-align:left;width: 12em; vertical-align: top !important;" rowspan="2">
 Module 2: <br> Graphic communication and storytelling
 </td>
 <td style="text-align:left;">
@@ -2101,9 +2102,6 @@ Deriving Insights from Your Data: Hands-on (<a href="https://raw.githubuserconte
 </td>
 </tr>
 <tr>
-<td style="text-align:left;width: 12em; ">
-Module 2: <br> Graphic communication and storytelling
-</td>
 <td style="text-align:left;">
 7 <br><font size="2" color="gray"> Sep 30<br>Oct 2 </font>
 </td>
@@ -2125,7 +2123,7 @@ Presentation of Final Project Idea and Review of Literature/Examples
 </td>
 </tr>
 <tr>
-<td style="text-align:left;width: 12em; ">
+<td style="text-align:left;width: 12em; vertical-align: top !important;" rowspan="2">
 Module 3: <br> Transportation
 </td>
 <td style="text-align:left;">
@@ -2144,9 +2142,6 @@ Handling Transportation Data in R (<a href="https://raw.githubusercontent.com/uj
 </td>
 </tr>
 <tr>
-<td style="text-align:left;width: 12em; ">
-Module 3: <br> Transportation
-</td>
 <td style="text-align:left;">
 9 <br><font size="2" color="gray"> Oct 16 </font>
 </td>
@@ -2162,7 +2157,7 @@ Open Street Map (<a href="https://raw.githubusercontent.com/ujhwang/urban-analyt
 </td>
 </tr>
 <tr>
-<td style="text-align:left;width: 12em; ">
+<td style="text-align:left;width: 12em; vertical-align: top !important;" rowspan="2">
 Module 4: <br> Urban image &amp; computer vision
 </td>
 <td style="text-align:left;">
@@ -2181,9 +2176,6 @@ Applications of Computer Vision in Urban Studies <a href="https://raw.githubuser
 </td>
 </tr>
 <tr>
-<td style="text-align:left;width: 12em; ">
-Module 4: <br> Urban image &amp; computer vision
-</td>
 <td style="text-align:left;">
 11 <br><font size="2" color="gray"> Oct 28, 30 </font>
 </td>
@@ -2202,7 +2194,7 @@ Sampling &amp; Processing Images (<a href="https://raw.githubusercontent.com/ujh
 </td>
 </tr>
 <tr>
-<td style="text-align:left;width: 12em; ">
+<td style="text-align:left;width: 12em; vertical-align: top !important;" rowspan="2">
 Module 5: <br> Social media
 </td>
 <td style="text-align:left;">
@@ -2223,9 +2215,6 @@ Presentation of Final Project Data, Methods, &amp; Preliminary Results
 </td>
 </tr>
 <tr>
-<td style="text-align:left;width: 12em; ">
-Module 5: <br> Social media
-</td>
 <td style="text-align:left;">
 13 <br><font size="2" color="gray"> Nov 11, 13 </font>
 </td>
@@ -2334,7 +2323,7 @@ towards the final grade. The team project presentation is based on
 PowerPoint slides (or other presentation tool of your choice.) The team
 project report should be a web document rendered from R Markdown (or
 other tool of your choice).</p>
-<table class="table table-condensed table-responsive" style="margin-left: auto; margin-right: auto;">
+<table class="table table-condensed table-responsive" style="color: black; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
