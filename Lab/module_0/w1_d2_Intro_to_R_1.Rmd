@@ -113,7 +113,7 @@ knitr::include_graphics("https://datacarpentry.org/genomics-r-intro/fig/rstudio_
   * `install.packages(c('tidyverse', 'sf', 'tmap'))`
 
 ### Option 2: Using Docker
-* Windows or MacOS with Intel chips only
+* Windows or MacOS with Intel chip only
 * You will use a Docker image with all R packages for the class pre-installed
 
 ---
