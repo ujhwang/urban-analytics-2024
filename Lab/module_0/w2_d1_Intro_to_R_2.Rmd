@@ -46,6 +46,7 @@ library(tidyverse)
 library(leaflet)
 library(tmap)
 library(kableExtra)
+library(tictoc)
 ```
 ---
 ## Content
@@ -64,11 +65,12 @@ class: inverse, center, middle
 ## R Markdown
 
 * **R Markdown** is a markdown that contains chunks of embedded R code.
-* **Markdown** is a markup language that adds formatting elements to plain text documents.
+* **Markdown** is an easy-to-use simplified markup language.
+* **Markup language** is a text-encoding system that specifies the structure and formatting of a document.
 * **Markup language examples**: Markdown, HTML, and LaTeX.
 * These presentation slides are made by R Markdown.
 * [Our syllabus](https://ujhwang.github.io/urban-analytics-2024) is also an R Markdown document in which all tables are written in R code. <br>
-* A cooler example is [this](http://timelyportfolio.github.io/rCharts_nyt_home_price/).
+* [A cooler example](http://timelyportfolio.github.io/rCharts_nyt_home_price/).
 * To create an R Markdown file, go to **file > R Markdown.**
 
 ---
@@ -587,6 +589,60 @@ system.time({
 })
 stopCluster(cl)
 ```
+
+---
+## Pre-allocation
+```{r eval=F}
+n <- 20000
+
+# Adding rows to an empty dataframe
+df <- data.frame()
+
+system.time({
+  for (i in 1:n) {
+    df <- rbind(df, data.frame(x = i, y = i^2))
+  }
+})
+
+# Pre-allocating dataframe and then adding values
+df <- data.frame(x = numeric(n), y = numeric(n))
+
+system.time({
+  for (i in 1:n) {
+    df[i, ] <- c(i, i^2)
+  }
+})
+```
+
+---
+## Pre-allocation
+```{r eval=F}
+n <- 20000
+
+# Adding rows to an empty dataframe
+df <- data.frame()
+
+tic()
+for (i in 1:n) {
+  df <- rbind(df, data.frame(x = i, y = i^2))
+  if (!i%%4000) { # same as `if (i%%4000 == 0) {`
+    toc();tic() # semicolon tells where one command ends and another begins
+  }
+}
+
+# Pre-allocating dataframe and then adding values
+df <- data.frame(x = numeric(n), y = numeric(n))
+
+tic()
+for (i in 1:n) {
+  df[i, ] <- c(i, i^2)
+  if (!i%%4000){
+    toc();tic()
+  }
+}
+
+```
+
 
 ---
 ## Let's practice loops
