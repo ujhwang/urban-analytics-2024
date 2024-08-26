@@ -11,3 +11,10 @@ sort(installed.packages()[,1])
 library(sf)
 library(dplyr)
 install.packages('devtools')
+(33 + 43) / 4
+(33 + 43) / 4
+(33 + 43) / 4
+'a' == 'a'
+'a' != 'a'
+!'a' != 'a'
+"Paris" == "paris"
