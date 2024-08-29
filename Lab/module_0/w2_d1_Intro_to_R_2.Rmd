@@ -508,50 +508,15 @@ system.time({
 
 ---
 ## For-loop vs. Apply
-***How about this case?***
-```{r eval=F}
-# Generating a large matrix of random letters
-mat <- matrix(sample(letters, 10^7, replace = TRUE), nrow = 100, ncol = 100000)
-
-# Concatenate strings across each ROW
-system.time({
-  result_for <- character(nrow(mat))
-  for (i in 1:nrow(mat)) {
-    result_for[i] <- paste(mat[i, ], collapse = "")
-  }
-})
-
-system.time({
-  result_apply <- apply(mat, 1, paste, collapse = "")
-})
-
+```{r, echo=F, out.width="90%"}
+knitr::include_graphics("img/apply.PNG")
 ```
 
----
-## For-loop vs. Apply
-***How about THIS case?***
-```{r eval=F}
-# Generating a large matrix of random letters
-mat <- matrix(sample(letters, 10^7, replace = TRUE), nrow = 100, ncol = 100000)
-
-# Concatenate strings across each COLUMN
-system.time({
-  result_for <- character(nrow(mat))
-  for (i in 1:nrow(mat)) {
-    result_for[i] <- paste(mat[, i], collapse = "") #<<
-  }
-})
-
-system.time({
-  result_apply <- apply(mat, 2, paste, collapse = "") #<<
-})
-
-```
 
 ---
 ## For-loop vs. Apply
 ***Does Apply involve parallelization?***
-```{r eval=F}
+```{r}
 vec <- 1:100
 
 # Using for-loop
@@ -617,6 +582,7 @@ system.time({
 ---
 ## Pre-allocation
 ```{r eval=F}
+library(tictoc)
 n <- 20000
 
 # Adding rows to an empty dataframe
