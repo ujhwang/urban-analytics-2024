@@ -150,7 +150,7 @@ View(vars)
 ## Yelp API
 
 ```{r, out.width = "95%", echo=F}
-knitr::include_graphics("img/yelp.png")
+knitr::include_graphics("img/yelp.PNG")
 ```
 
 ---
@@ -216,7 +216,7 @@ knitr::include_graphics("img/get_yelp_api.png")
 ---
 ## Yelp API is not free
 
-![](img/yelp_pricing.png)
+![](img/yelp_pricing.PNG)
 
 ---
 ## How to manage API keys
