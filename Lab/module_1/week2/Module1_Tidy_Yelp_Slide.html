@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Tidy Data</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Originally written by Bon Woo Koo &amp; Subhro Guhathakurta; modified by Uijeong Hwang" />
+    <script src="libs/header-attrs-2.24/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <script src="libs/kePrint-0.0.1/kePrint.js"></script>
+    <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+    <script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+    <script src="libs/jquery-1.12.4/jquery.min.js"></script>
+    <link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+    <script src="libs/leaflet-1.3.1/leaflet.js"></script>
+    <link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+    <script src="libs/proj4-2.6.2/proj4.min.js"></script>
+    <script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+    <link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+    <script src="libs/leaflet-binding-2.1.2/leaflet.js"></script>
+    <script src="libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+    <script src="libs/leaflet-providers-plugin-2.1.2/leaflet-providers-plugin.js"></script>
+    <link rel="stylesheet" href="assets/sydney-fonts.css" type="text/css" />
+    <link rel="stylesheet" href="assets/sydney.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+
+class: middle, inverse
+
+# Preparing your Data
+## Data Wrangling
+
+.font100[
+Subhro Guhathakurta &amp; Uijeong Hwang
+
+9/14/2023
+]
+---
+# Data are messy
+When you read textbooks on statistics or online tutorials on Urban Analytics, they often use data that’s already nice and clean. They often do not show you all the hassle they went through to clean the data
+
+--
+### Unprocessed Data are messy and have all sorts of issues
+
+--
+For example:
+--
+&lt;ol&gt;
+&lt;li&gt; Rows and columns do not represent observations and variables, respectively
+&lt;li&gt; Duplicated or redundant rows/columns
+&lt;li&gt; multiple variables in one column
+&lt;li&gt; Missing data
+&lt;li&gt; Unstructured data
+&lt;/ol&gt;
+and the list goes on..
+---
+# Issue 1 - Rows and columns do not represent observations and variables
+
+## The opposite of "messy" data is "tidy" data
+--
+
+.center[
+In tidy data,
+
+“Each variable must have its own column.”
+
+“Each observation must have its own row.”
+
+“Each value must have its own cell.”
+
+(from Chapter 12.2 in R for Data Science)
+]
+--
+
+- &lt;font color=blue&gt;You need to decide what is your "variable" and what is an individual "record"&lt;/font&gt;
+---
+# Rearranging columns and rows
+## Wide vs. Long forms
+
+.small[
+.pull-left[
+
+with `output="wide"`:
+
+
+```r
+census_wide %&gt;% 
+  head() %&gt;%  
+  nice_table("350px")
+```
+
+&lt;div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:350px; overflow-x: scroll; width:100%; "&gt;&lt;table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; GEOID &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; NAME &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; hhincomeE &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; hhincomeM &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; race.totE &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; race.totM &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 13121010122 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Census Tract 101.22, Fulton County, Georgia &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 90586 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 14002 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6383 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 650 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 13121010123 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Census Tract 101.23, Fulton County, Georgia &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 77969 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7510 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5081 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 716 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 13121010211 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Census Tract 102.11, Fulton County, Georgia &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 142750 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22560 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2864 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 347 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 13121007602 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Census Tract 76.02, Fulton County, Georgia &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 32500 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5264 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2570 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 310 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 13121001700 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Census Tract 17, Fulton County, Georgia &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 94750 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 19507 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4911 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 403 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 13121007802 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Census Tract 78.02, Fulton County, Georgia &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 51388 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7637 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10961 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1177 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;&lt;/div&gt;
+]
+
+.pull-right[
+with `output="long"`:
+
+
+```r
+census_long %&gt;% 
+  head() %&gt;% 
+  nice_table("350px")
+```
+
+&lt;div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:350px; overflow-x: scroll; width:100%; "&gt;&lt;table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; GEOID &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; NAME &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; variable &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; estimate &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; moe &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 13121000100 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Census Tract 1, Fulton County, Georgia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; race.tot &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5410 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 359 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 13121000100 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Census Tract 1, Fulton County, Georgia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; hhincome &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 168396 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 18644 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 13121000200 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Census Tract 2, Fulton County, Georgia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; race.tot &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6175 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 448 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 13121000200 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Census Tract 2, Fulton County, Georgia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; hhincome &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 158011 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 37856 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 13121000400 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Census Tract 4, Fulton County, Georgia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; race.tot &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2047 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 292 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 13121000400 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Census Tract 4, Fulton County, Georgia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; hhincome &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 97257 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30528 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;&lt;/div&gt;
+]
+]
+---
+## Wide vs. Long forms
+
+.small[
+
+```r
+longer &lt;- census_wide %&gt;% 
+  pivot_longer(cols = hhincomeE:race.totM, # Cols to be affected
+               names_to = c("variable"), # Name for the label column
+               values_to = c("value")) # Name for the value column
+longer
+```
+
+```
+## # A tibble: 816 × 4
+##    GEOID       NAME                                        variable   value
+##    &lt;chr&gt;       &lt;chr&gt;                                       &lt;chr&gt;      &lt;dbl&gt;
+##  1 13121010122 Census Tract 101.22, Fulton County, Georgia hhincomeE  90586
+##  2 13121010122 Census Tract 101.22, Fulton County, Georgia hhincomeM  14002
+##  3 13121010122 Census Tract 101.22, Fulton County, Georgia race.totE   6383
+##  4 13121010122 Census Tract 101.22, Fulton County, Georgia race.totM    650
+##  5 13121010123 Census Tract 101.23, Fulton County, Georgia hhincomeE  77969
+##  6 13121010123 Census Tract 101.23, Fulton County, Georgia hhincomeM   7510
+##  7 13121010123 Census Tract 101.23, Fulton County, Georgia race.totE   5081
+##  8 13121010123 Census Tract 101.23, Fulton County, Georgia race.totM    716
+##  9 13121010211 Census Tract 102.11, Fulton County, Georgia hhincomeE 142750
+## 10 13121010211 Census Tract 102.11, Fulton County, Georgia hhincomeM  22560
+## # ℹ 806 more rows
+```
+]
+
+---
+## Wide vs. Long forms
+
+.small[
+
+```r
+wider &lt;- longer %&gt;% 
+  pivot_wider(id_cols = c(GEOID, NAME), 
+              names_from = c("variable"),
+              values_from = c("value")) 
+wider
+```
+
+```
+## # A tibble: 204 × 6
+##    GEOID       NAME                      hhincomeE hhincomeM race.totE race.totM
+##    &lt;chr&gt;       &lt;chr&gt;                         &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+##  1 13121010122 Census Tract 101.22, Ful…     90586     14002      6383       650
+##  2 13121010123 Census Tract 101.23, Ful…     77969      7510      5081       716
+##  3 13121010211 Census Tract 102.11, Ful…    142750     22560      2864       347
+##  4 13121007602 Census Tract 76.02, Fult…     32500      5264      2570       310
+##  5 13121001700 Census Tract 17, Fulton …     94750     19507      4911       403
+##  6 13121007802 Census Tract 78.02, Fult…     51388      7637     10961      1177
+##  7 13121007805 Census Tract 78.05, Fult…     31174      5355      3397       633
+##  8 13121009700 Census Tract 97, Fulton …    208750     66170      3846       316
+##  9 13121010206 Census Tract 102.06, Ful…    192375     49707      5618       361
+## 10 13121011303 Census Tract 113.03, Ful…     45942      4865      9543       666
+## # ℹ 194 more rows
+```
+]
+
+---
+# Issue 2 - Duplicated or redundant rows/columns
+&lt;ol&gt;
+&lt;li&gt; Duplicated rows is a common issue when using API to acquire data
+&lt;li&gt; Multiple functions exist in R to deal with duplicates 
+&lt;li&gt; Most frequently used ones include:
+&lt;ol&gt;
+- duplicated() and distinct()
+
+
+
+```r
+dupl_df &lt;- data.frame(name = c("A", "A", "B", "C", "C", "C", "D"),
+                      GPA = c(3.5, 3.5, 4.0, 2.0, 3.0, 3.0, 2.0)) 
+duplicated(dupl_df$name)
+```
+
+```
+## [1] FALSE  TRUE FALSE FALSE  TRUE  TRUE FALSE
+```
+---
+# !duplicated()
+
+
+```r
+# Duplicates in column "name" removed.
+dupl_df[!duplicated(dupl_df$name),]
+```
+
+```
+##   name GPA
+## 1    A 3.5
+## 3    B 4.0
+## 4    C 2.0
+## 7    D 2.0
+```
+---
+# distinct()
+
+```r
+# Returns a vector, not data frame
+dupl_df %&gt;% 
+  distinct(name) # Try adding .keep_all = TRUE argument 
+```
+
+```
+##   name
+## 1    A
+## 2    B
+## 3    C
+## 4    D
+```
+
+```r
+# Returns a data frame
+dupl_df %&gt;% 
+  distinct(name, GPA)
+```
+
+```
+##   name GPA
+## 1    A 3.5
+## 2    B 4.0
+## 3    C 2.0
+## 4    C 3.0
+## 5    D 2.0
+```
+---
+# Issue 3 - Multiple variables in one column
+## This issue comes in two broad types.
+
+1. Different variables can be concatenated into a long string
+
+A very common example from Census data: you fill often find something like &lt;b&gt;Census Tract 9501, Appling County, Georgia&lt;/b&gt; in a single column
+
+It contains at least three variables: Tract, County, and State
+
+We can break the string down into pieces using &lt;font color=red&gt;separate()&lt;/font&gt; from &lt;font color=blue&gt;tidyr&lt;/font&gt; package
+
+---
+# separate()
+
+```r
+# A character vector to split
+onecol_df &lt;- data.frame(labels = c('a1','b_2','c_3_2','d_4_1'))
+# split the character at _
+onecol_df %&gt;% separate(col = "labels", sep = "_", into = c("alphabet", "numeric")) 
+```
+
+```
+## Warning: Expected 2 pieces. Additional pieces discarded in 2 rows [3, 4].
+```
+
+```
+## Warning: Expected 2 pieces. Missing pieces filled with `NA` in 1 rows [1].
+```
+
+```
+##   alphabet numeric
+## 1       a1    &lt;NA&gt;
+## 2        b       2
+## 3        c       3
+## 4        d       4
+```
+---
+# The second type:
+##One column in a data frame can contain another data frame or a list
+This data structure is frequently found when we convert something like a JSON, which can have nested structure, into a data frame. 
+
+In such cases you need to &lt;font color=blue&gt;flatten&lt;/font&gt; the data frame using jsonlite::flatten() which will automatically generate columns that concatenate the name of the column with the nested columns inside
+
+--
+
+Even after flattening, there could be list-columns remaining. These will have to be addressed individually according to your needs 
+---
+# Issue 4 - Missing Values
+In R, NA is used to represent missing data 
+
+Many core functions in R does not work properly when NA is in the vector (e.g., try mean(c(NA, 1, 2, 3)))
+
+
+```r
+avg &lt;- mean(c(NA, 10, 25, 3))
+avg
+```
+
+```
+## [1] NA
+```
+So it is imperative that NAs are taken care of
+
+is.na() is a Base R function that returns a logical object (TRUE/FALSE)
+
+drop.na() is part of the tidyr package that drops columns with NAs
+
+If drop.na() is used without specifying columns then only those rows that do not have NAs will be retained
+---
+.small[
+* is.na()
+
+```r
+# This is the same toy_df from above
+toy_df &lt;- data.frame(name = c("John", "Jane", "Mary"), 
+                     treatment_a = c(NA, 16, 3),
+                     treatment_b = c(2, 11, 1),
+                     treatment_c = c(6, 12, NA))
+
+# Dropping NA using is.na()
+toy_df %&gt;% 
+  filter(!is.na(treatment_a))
+```
+
+```
+##   name treatment_a treatment_b treatment_c
+## 1 Jane          16          11          12
+## 2 Mary           3           1          NA
+```
+* drop.na()
+
+```r
+# This check across all columns and drops all rows that have at least one NA.
+toy_df %&gt;% 
+  drop_na()
+```
+
+```
+##   name treatment_a treatment_b treatment_c
+## 1 Jane          16          11          12
+```
+]
+
+---
+## Saving files
+
+### (1) Read/write .rds
+* **`write_rds()`, `read_rds()`**: They work the same way as `write_csv()` and `read_csv()`.
+
+
+```r
+library(tidyverse)
+a &lt;- c(1,2,3)
+
+a %&gt;% write_rds(file = 'data.rds')
+a &lt;- read_rds('data.rds')
+```
+
+---
+## saving files
+
+### (2) Read/write .RData
+* **`save()`**: Save multiple objects.
+* **`save.image()`**: Save the entire environment.  
+* **`load()`**: Load .RData file. Do not use **`&lt;-`** (as .RData file stores the original object name as well).
+
+
+```r
+a &lt;- c(1,2,3)
+b &lt;- c(3,4,5)
+
+save(a, b, file = 'data.RData') # never use piping for 'save()'
+load('data.RData')
+
+save.image(file = 'data_all.RData')
+load('data_all.RData')
+```
+
+---
+## Anonymous function
+
+.small[
+* When using **apply()** or **map()**, you can provide an existing or a custom-made function.
+* Similar to lambda in Python, R has anonymous function. 
+* Anonymous function is a function defined on the fly and disappears after execution.
+
+.pull-left[
+
+```r
+map(1:5, # input vector
+    function(x) x + 1) # anonymous function
+```
+
+```
+## [[1]]
+## [1] 2
+## 
+## [[2]]
+## [1] 3
+## 
+## [[3]]
+## [1] 4
+## 
+## [[4]]
+## [1] 5
+## 
+## [[5]]
+## [1] 6
+```
+]
+
+.pull-right[
+
+```r
+map(1:5, # input vector
+    function(x){ # anonymous function with {}
+      out &lt;- (x + 1)*x
+      return(out)
+    })
+```
+
+```
+## [[1]]
+## [1] 2
+## 
+## [[2]]
+## [1] 6
+## 
+## [[3]]
+## [1] 12
+## 
+## [[4]]
+## [1] 20
+## 
+## [[5]]
+## [1] 30
+```
+]
+]
+
+---
+## Anonymous function
+
+.small[
+* map() and other variants has a nice syntax that make the code simple. 
+* Instead of declaring `function(x)`, you can use a tilde (~) to indicate that it is anonymous function.
+* `x`s inside the anonymous function needs to be preceded by a period (.). See the example below.
+
+
+```r
+map(1:5, # input
+    ~(.x + 1)*.x ) # tilde replaces function().  # x is preceded by a period
+```
+
+```
+## [[1]]
+## [1] 2
+## 
+## [[2]]
+## [1] 6
+## 
+## [[3]]
+## [1] 12
+## 
+## [[4]]
+## [1] 20
+## 
+## [[5]]
+## [1] 30
+```
+]
+
+---
+## Existing data frame into a sf object
+* You can convert a data frame with lng/lat into a sf object. This can be done using **st_as_sf()**. 
+* The word 'as' indicates that it converts an *existing* object to sf rather than creating one from scratch.
+
+.pull-left[
+
+```r
+# A data frame with XY info
+point_df &lt;- data.frame(
+  x = c(-84.3991, -84.4010, -84.3899), 
+  y = c(33.7770, 33.7748, 33.7777))
+
+# st_as_sf
+point_sf &lt;- point_df %&gt;% 
+  st_as_sf(coords = c("x", "y"), 
+           crs = 4326)
+
+tm_shape(point_sf) + tm_dots()
+```
+]
+
+.pull-right[
+<div class="leaflet html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-00ebf5bd42838029c7b6" style="width:100%;height:504px;"></div>
+<script type="application/json" data-for="htmlwidget-00ebf5bd42838029c7b6">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"createMapPane","args":["tmap401",401]},{"method":"addProviderTiles","args":["Esri.WorldGrayCanvas",null,"Esri.WorldGrayCanvas",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["OpenStreetMap",null,"OpenStreetMap",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["Esri.WorldTopoMap",null,"Esri.WorldTopoMap",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"pane":"tilePane"}]},{"method":"addCircleMarkers","args":[[33.777,33.7748,33.7777],[-84.3991,-84.401,-84.3899],[2.82842712474619,2.82842712474619,2.82842712474619],[null,null,null],"point_sf",{"interactive":true,"className":"","pane":"tmap401","stroke":true,"color":"#666666","weight":1,"opacity":0.5,"fill":true,"fillColor":["#000000","#000000","#000000"],"fillOpacity":[1,1,1]},null,null,null,null,[null,null,null],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLayersControl","args":[["Esri.WorldGrayCanvas","OpenStreetMap","Esri.WorldTopoMap"],"point_sf",{"collapsed":true,"autoZIndex":true,"position":"topleft"}]}],"limits":{"lat":[33.7748,33.7777],"lng":[-84.401,-84.3899]},"fitBounds":[33.7748,-84.401,33.7777,-84.3899,[]]},"evals":[],"jsHooks":[]}</script>
+]
+
+
+---
+## Detecting string - str_detect/grepl
+
+* Some may download two Yelp categories at once.
+* Rows for category A and B will be mixed.
+* To count how many As and Bs are there respectively, you need to search strings.
+
+grepl(.red[pattern], .blue[string])
+
+```r
+a &lt;- c("yoga studio", "health gym", "pizza", "YoGa")
+grepl("yoga", a)
+```
+
+```
+## [1]  TRUE FALSE FALSE FALSE
+```
+
+str_detect(.blue[string], .red[pattern])
+
+```r
+str_detect(a, "yoga")
+```
+
+```
+## [1]  TRUE FALSE FALSE FALSE
+```
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "4:3"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

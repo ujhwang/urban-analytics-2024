@@ -1,0 +1,50 @@
+---
+title: "Mini 1 feedback"
+author: "Uijeong Hwang"
+institute: "Georgia Institute of Technology"
+date: "2023/9/19"
+output:
+  xaringan::moon_reader:
+    css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
+    seal: false
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '4:3' # alternatives '16:9' or '4:3' or others e.g. 13:9
+---
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent(
+  base_color = "#1c5253",
+  header_font_google = google_font("Open Sans"),
+  text_font_google   = google_font("Source Sans Pro", "400", "400i"),
+  code_font_google   = google_font("Fira")
+)
+```
+
+```{r, include=F}
+library(xaringanthemer)
+library(sf)
+library(tidyverse)
+library(leaflet)
+library(knitr)
+library(kableExtra)
+library(tidycensus)
+```
+
+## Regarding assignments
+* As for the mini assignment 1, you won't be penalized for late submission due to API quota limit issue.
+![](yelp_api_limit.PNG)
+* In the worst case, submit your **Rmd** file.
+* Do not expose your API key!
+* If you have no option but to put it in Rmd file, use **include=FALSE** option
+.large[
+````{verbatim}
+```{r, include=FALSE}
+api_key <- "your_api_key"
+```
+````
+]
+
