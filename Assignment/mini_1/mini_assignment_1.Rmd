@@ -1,6 +1,6 @@
 ---
 title: "Mini-Assignment 1"
-author: "Uijeong Hwang & Subhrajit Guhathakurta"
+author: 'Uijeong "UJ" Hwang'
 date: '2024-09-11'
 output:
   rmdformats::downcute:
@@ -23,23 +23,27 @@ The purpose of this mini assignment is to provide you with an opportunity to dig
 1. Choose two categories of businesses. See the [Yelp API documentation](https://docs.developer.yelp.com/docs/resources-categories) if you need help with the choice.  
     * Because you will have Yelp business information for two different categories, you may need to merge them into a single data frame by using bind_rows().
     
-2. Choose a county within the US. Use tidycensus package to download Census Tract polygons.
+2. Choose a city. I recommend choosing a city that is not too big since your API quota is limited (300 calls a day).
 
-3. Write R codes to get business data from Yelp using yelpr package for the selected county & business categories. Make sure you leave comments using hash tags (#) to explain what each code chunk is doing.
+3. Get Census Tracts for the city you chose. Use `tigris` package to get the city boundary and `tidycensus` package to download Census Tract polygons.
 
-4. Map the locations of business using the downloaded data.
+4. Write R codes to get business data from Yelp using `yelpr` package for the selected city & business categories. Make sure you leave comments using hash tags (#) to explain what each code chunk is doing.
 
-5. Answer the following questions:
-    * What's the county and state of your choice?
+5. Create two maps.
+    * The city boundary and its Census Tracts (showing the Census Tracts are covering the entire city area)
+    * The locations of businesses you collected.
+
+6. Answer the following questions and support your answers WITH CODE/DATA:
+    * Which city did you choose?
     * How many businesses are there in total?
     * How many businesses are there for each business category?
-    *	Upon visual inspection, can you see any noticeable spatial patterns to the way they are distributed across the county (e.g., clustering of businesses at some parts of the county)?
+    *	Upon visual inspection, can you see any noticeable spatial patterns to the way they are distributed across the city (e.g., clustering of businesses at some parts of the city)?
     *	(Optional) Are there any other interesting findings?
 
 
 # Logistics
 1. Write your report and R code in a R Markdown document. 
-2. Use the Knit button in R Studio to render it as a HTML document.
+2. Use the Knit button in R Studio to render it as an HTML document.
 3. Publish the rendered document to RPubs.
 4. <font color="pink">Submit the URL of the RPubs document through Canvas by **9/20/2024 Friday midnight (11:59 PM on Friday).** </font>
 5. To submit, go to Canvas > Assignments > Mini assignment 1.

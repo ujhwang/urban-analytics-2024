@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="generator" content="pandoc" />
 
-        <meta name="author" content="Uijeong Hwang &amp; Subhrajit Guhathakurta" />
+        <meta name="author" content="Uijeong “UJ” Hwang" />
     
         <meta name="date" content="2024-09-11" />
     
@@ -1664,8 +1664,8 @@ margin-left: 0 !important;
       <h1 class="title">Mini-Assignment 1</h1>
       
       <p class="authors">
-           <span class="glyphicon glyphicon-user"></span> Uijeong Hwang
-&amp; Subhrajit Guhathakurta
+           <span class="glyphicon glyphicon-user"></span> Uijeong “UJ”
+Hwang
       </p>
          <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2024-09-11</p>
            
@@ -1695,21 +1695,30 @@ API documentation</a> if you need help with the choice.</p>
 categories, you may need to merge them into a single data frame by using
 bind_rows().</li>
 </ul></li>
-<li><p>Choose a county within the US. Use tidycensus package to download
-Census Tract polygons.</p></li>
-<li><p>Write R codes to get business data from Yelp using yelpr package
-for the selected county &amp; business categories. Make sure you leave
-comments using hash tags (#) to explain what each code chunk is
-doing.</p></li>
-<li><p>Map the locations of business using the downloaded data.</p></li>
-<li><p>Answer the following questions:</p>
+<li><p>Choose a city. I recommend choosing a city that is not too big
+since your API quota is limited (300 calls a day).</p></li>
+<li><p>Get Census Tracts for the city you chose. Use <code>tigris</code>
+package to get the city boundary and <code>tidycensus</code> package to
+download Census Tract polygons.</p></li>
+<li><p>Write R codes to get business data from Yelp using
+<code>yelpr</code> package for the selected city &amp; business
+categories. Make sure you leave comments using hash tags (#) to explain
+what each code chunk is doing.</p></li>
+<li><p>Create two maps.</p>
 <ul>
-<li>What’s the county and state of your choice?</li>
+<li>The city boundary and its Census Tracts (showing the Census Tracts
+are covering the entire city area)</li>
+<li>The locations of businesses you collected.</li>
+</ul></li>
+<li><p>Answer the following questions and support your answers WITH
+CODE/DATA:</p>
+<ul>
+<li>Which city did you choose?</li>
 <li>How many businesses are there in total?</li>
 <li>How many businesses are there for each business category?</li>
 <li>Upon visual inspection, can you see any noticeable spatial patterns
-to the way they are distributed across the county (e.g., clustering of
-businesses at some parts of the county)?</li>
+to the way they are distributed across the city (e.g., clustering of
+businesses at some parts of the city)?</li>
 <li>(Optional) Are there any other interesting findings?</li>
 </ul></li>
 </ol>
@@ -1718,7 +1727,7 @@ businesses at some parts of the county)?</li>
 <h1>Logistics</h1>
 <ol style="list-style-type: decimal">
 <li>Write your report and R code in a R Markdown document.</li>
-<li>Use the Knit button in R Studio to render it as a HTML
+<li>Use the Knit button in R Studio to render it as an HTML
 document.</li>
 <li>Publish the rendered document to RPubs.</li>
 <li><font color="pink">Submit the URL of the RPubs document through
