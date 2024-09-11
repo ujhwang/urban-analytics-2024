@@ -2,7 +2,7 @@
 title: "Tidy Data"
 author: "Originally written by Bon Woo Koo & Subhro Guhathakurta; modified by Uijeong Hwang"
 institute: "Georgia Institute of Technology"
-date: "2023/9/14"
+date: "2023/9/11"
 output:
   xaringan::moon_reader:
     css: ["default", "assets/sydney-fonts.css", "assets/sydney.css"]
@@ -49,9 +49,9 @@ class: middle, inverse
 ## Data Wrangling
 
 .font100[
-Subhro Guhathakurta & Uijeong Hwang
+Uijeong "UJ" Hwang
 
-9/14/2023
+9/11/2024
 ]
 ---
 # Data are messy
@@ -71,10 +71,11 @@ For example:
 <li> Unstructured data
 </ol>
 and the list goes on..
----
-# Issue 1 - Rows and columns do not represent observations and variables
 
-## The opposite of "messy" data is "tidy" data
+---
+## Issue 1 - Rows and columns do not represent observations and variables
+
+### The opposite of "messy" data is "tidy" data
 --
 
 .center[
@@ -92,17 +93,31 @@ In tidy data,
 
 - <font color=blue>You need to decide what is your "variable" and what is an individual "record"</font>
 ---
-# Rearranging columns and rows
 ## Wide vs. Long forms
-```{r, include=F, message=F}
-census_api_key(Sys.getenv("census_api"))
+* **Wide**: each row represents a unique entity, and repeated measures or different variables are spread across columns.
+* **Long**: each row represents a single observation, and each variable is in its own column.
 
-suppressMessages(
-census_wide <- get_acs(geography="tract", state="GA", variables=c(hhincome='B19019_001', race.tot = "B02001_001"), 
-                       county="Fulton", year=2019, output="wide", geomtry=TRUE))
-suppressMessages(
-census_long <- get_acs(geography="tract", state="GA", variables=c(hhincome='B19019_001', race.tot = "B02001_001"), 
-                       county="Fulton", year=2019, geomtry=TRUE))
+```{r eval=F}
+census_wide <- get_acs(geography="tract", 
+                       state="GA", 
+                       variables=c(hhincome='B19019_001', pop = "B02001_001"),
+                       county="Fulton", 
+                       year=2022, 
+                       output="wide", #<<
+                       geomtry=TRUE)
+```
+
+---
+## Wide vs. Long forms
+
+```{r, include=F, message=F, warning=F}
+census_wide <- suppressMessages(
+  get_acs(geography="tract", state="GA", variables=c(hhincome='B19019_001', pop = "B02001_001"), 
+          county="Fulton", year=2022, output="wide", geomtry=TRUE))
+
+census_long <- suppressMessages(
+  get_acs(geography="tract", state="GA", variables=c(hhincome='B19019_001', pop = "B02001_001"), 
+          county="Fulton", year=2022, geomtry=TRUE))
 ```
 .small[
 .pull-left[
@@ -127,12 +142,43 @@ census_long %>%
 ]
 ]
 ---
-## Wide vs. Long forms
+## Wide format is useful when
+* Cross-sectional data
+* Comparison between multiple variables
+* Data export and reporting
+
+| student | math_score | science_score |
+|---------|------------|---------------|
+|   A     |   100      |  90           |
+|   B     |   85       |  80           |
+|   C     |   90       |  85           |
+|   D     |   98       |  95           |
+|   E     |   50       |  60           |
+|   F     |   70       |  40           |
+
+
+---
+## Long format is useful when
+* Time series data
+* Repeated measures of experiments
+* Grouped data
+
+| store |   month    |   sales |
+|-------|------------|---------|
+| A     |   Jan      |  500    |
+| A     |   Feb      |  300    |
+| A     |   Mar      |  500    |
+| B     |   Feb      |  200    |
+| B     |   Jan      |  450    |
+| B     |   Mar      |  600    |
+
+---
+## Wide -> Long
 
 .small[
 ```{r}
 longer <- census_wide %>% 
-  pivot_longer(cols = hhincomeE:race.totM, # Cols to be affected
+  pivot_longer(cols = hhincomeE:popM, # Cols to be affected
                names_to = c("variable"), # Name for the label column
                values_to = c("value")) # Name for the value column
 longer
@@ -140,7 +186,7 @@ longer
 ]
 
 ---
-## Wide vs. Long forms
+## Long -> Wide
 
 .small[
 ```{r}
@@ -153,149 +199,251 @@ wider
 ]
 
 ---
-# Issue 2 - Duplicated or redundant rows/columns
-<ol>
-<li> Duplicated rows is a common issue when using API to acquire data
-<li> Multiple functions exist in R to deal with duplicates 
-<li> Most frequently used ones include:
-<ol>
-- duplicated() and distinct()
+## Issue 2 - Duplicated rows/columns
 
+* Duplicated rows is a common issue when using API to acquire data
+* Most frequently used functions to deal with duplicates include:
+  * duplicated() and distinct()
 
 ```{r}
 dupl_df <- data.frame(name = c("A", "A", "B", "C", "C", "C", "D"),
                       GPA = c(3.5, 3.5, 4.0, 2.0, 3.0, 3.0, 2.0)) 
 duplicated(dupl_df$name)
 ```
+
 ---
-# !duplicated()
+## Issue 2 - Duplicated rows/columns
+### !duplicated()
 
 ```{r}
 # Duplicates in column "name" removed.
 dupl_df[!duplicated(dupl_df$name),]
 ```
+
+```{r}
+dupl_df[!duplicated(dupl_df),]
+```
+
+
 ---
-# distinct()
+## Issue 2 - Duplicated rows/columns
+### `dplyr::distinct()`
+
 ```{r}
 # Returns a vector, not data frame
 dupl_df %>% 
   distinct(name) # Try adding .keep_all = TRUE argument 
 ```
+
 ```{r}
 # Returns a data frame
 dupl_df %>% 
   distinct(name, GPA)
 ```
----
-# Issue 3 - Multiple variables in one column
-## This issue comes in two broad types.
-
-1. Different variables can be concatenated into a long string
-
-A very common example from Census data: you fill often find something like <b>Census Tract 9501, Appling County, Georgia</b> in a single column
-
-It contains at least three variables: Tract, County, and State
-
-We can break the string down into pieces using <font color=red>separate()</font> from <font color=blue>tidyr</font> package
 
 ---
-# separate()
+## Issue 3 - Multiple variables in one column
+### Case 1. different variables can be concatenated into a long string
+
+* A very common example from Census data: you often find something like <b>Census Tract 9501, Appling County, Georgia</b> in a single column
+* It contains at least three variables: Tract, County, and State
+* We can break the string down into pieces using `separate()` from `tidyr` package or `str_split_fixed()` from `stringr` package.
+
+---
+## Issue 3 - Multiple variables in one column
+### `tidyr::separate()`
+
 ```{r}
 # A character vector to split
 onecol_df <- data.frame(labels = c('a1','b_2','c_3_2','d_4_1'))
 # split the character at _
-onecol_df %>% separate(col = "labels", sep = "_", into = c("alphabet", "numeric")) 
+onecol_df_separate <- onecol_df %>% 
+  separate(col = "labels", 
+           sep = "_",
+           into = c("alphabet", "number1", "number2")) 
+
+print(onecol_df_separate)
 ```
+
 ---
-# The second type:
-##One column in a data frame can contain another data frame or a list
-This data structure is frequently found when we convert something like a JSON, which can have nested structure, into a data frame. 
+## Issue 3 - Multiple variables in one column
+### `stringr::str_split_fixed()`
 
-In such cases you need to <font color=blue>flatten</font> the data frame using jsonlite::flatten() which will automatically generate columns that concatenate the name of the column with the nested columns inside
+```{r}
+onecol_df_split <- str_split_fixed(onecol_df$labels,
+                                   pattern = "_", 
+                                   n = 3)
 
---
+print(onecol_df_split)
+```
 
-Even after flattening, there could be list-columns remaining. These will have to be addressed individually according to your needs 
+
 ---
-# Issue 4 - Missing Values
-In R, NA is used to represent missing data 
+## Issue 3 - Multiple variables in one column
+### Case 2. a column in a data frame contains another data frame, list, or dictionary
 
-Many core functions in R does not work properly when NA is in the vector (e.g., try mean(c(NA, 1, 2, 3)))
+.small[
+.pull-left[
+* This case is frequently found when we convert JSON, which can have nested structure, into a data frame.
+* In such cases you need to <font color=blue>flatten</font> the data frame using jsonlite::flatten() which will automatically generate columns that concatenate the name of the column with the nested columns inside.
+* Even after flattening, there could be list-columns remaining. These will have to be addressed individually according to your needs.
+
+]
+
+.pull-right[
+![](json_example.PNG)
+]
+]
+
+---
+## Issue 3 - Multiple variables in one column
+### JSON example
+
+```{r}
+jsonlite::fromJSON("json_example.json") %>% .$orders %>% sapply(class)
+
+```
+```{r}
+jsonlite::fromJSON("json_example.json", flatten = T) %>% .$orders %>% sapply(class)
+```
+
+
+---
+## Issue 4 - Missing Values
+* In R, NA is used to represent missing data 
+* Many core functions in R does not work properly when NA is in the vector, so those values should be taken care of.
 
 ```{r}
 avg <- mean(c(NA, 10, 25, 3))
 avg
 ```
-So it is imperative that NAs are taken care of
 
-is.na() is a Base R function that returns a logical object (TRUE/FALSE)
-
-drop.na() is part of the tidyr package that drops columns with NAs
-
-If drop.na() is used without specifying columns then only those rows that do not have NAs will be retained
 ---
+## Issue 4 - Missing Values
+### How to deal with missing values
+
+* Deletion
+  * Listwise
+  * Pairwise
+  * Dropping a variable
+
+* Imputation/interpolation
+
+---
+## Issue 4 - Missing Values
+### Listwise deletion
+
+* Removes all data for a case that has one or more missing values.
+```{r echo=F}
+data <- data.frame(
+  student = c("A", "B", "C", "D", "E", "F"),
+  math_score = c(100, 85, NA, 98, 50, 70),
+  science_score = c(90, 80, 85, 95, 60, 65),
+  english_score = c(75, 100, NA, 40, 100, 40)
+)
+
+data %>%
+  kbl() %>%
+  kable_styling() %>%
+  row_spec(3, background = "yellow")
+```
+
+---
+## Issue 4 - Missing Values
+### Pairwise deletion
+* Attempts to minimize the loss that occurs in listwise deletion. 
+```{r echo=F}
+data <- data.frame(
+  student = c("A", "B", "C", "D", "E", "F"),
+  math_score = c(100, 85, 90, NA, 50, 70),
+  science_score = c(90, 80, 85, 95, 60, NA),
+  english_score = c(75, 100, NA, 40, 100, 40)
+)
+
+data %>%
+  mutate(
+    math_score = ifelse(is.na(math_score), cell_spec(math_score, background = "yellow"), math_score),
+    science_score = ifelse(is.na(science_score), cell_spec(science_score, background = "yellow"), science_score),
+    english_score = ifelse(is.na(english_score), cell_spec(english_score, background = "yellow"), english_score)
+  ) %>%
+  kbl(escape = FALSE) %>%  
+  kable_styling()
+```
+
+---
+## Issue 4 - Missing Values
+### Dropping a variable
+
+* Discard a variable that is missing for a large portion of the observations.
+```{r echo=F}
+data <- data.frame(
+  student = c("A", "B", "C", "D", "E", "F"),
+  math_score = c(100, 85, 90, 98, 50, 70),
+  science_score = c(90, 80, 85, 95, 60, 65),
+  english_score = c(75, 100, NA, NA, NA, 40)
+)
+
+data %>%
+  kbl() %>%
+  kable_styling() %>%
+  column_spec(4, background = "yellow") 
+```
+
+---
+## Issue 4 - Missing Values
+### Imputation/interpolation
 .small[
-* is.na()
+* Imputation
+  * Mean, median, mode, or other statistical methods like KNN
+  * **No specific assumptions about data continuity**
+* Interpolation
+  * Linear, polynomial, or spline interpolation
+  * **Assumes some continuity and smooth transition between data points**
+
+```{r echo=F}
+data <- data.frame(
+  student = c("A", "B", "C", "D", "E", "F"),
+  math_score = c(100, 85, 90, 98, 50, 70),
+  science_score = c(90, 80, NA, 95, 60, 65),
+  english_score = c(75, 100, 70, 40, 100, 40)
+)
+
+data %>%
+  kbl() %>%
+  kable_styling() %>%
+  column_spec(3, background = "yellow")
+```
+]
+---
+## Issue 4 - Missing Values
+### Listwise deletion: `is.na()`
+
+* is.na() is a Base R function that returns a logical object (TRUE/FALSE)
 ```{r}
-# This is the same toy_df from above
-toy_df <- data.frame(name = c("John", "Jane", "Mary"), 
-                     treatment_a = c(NA, 16, 3),
-                     treatment_b = c(2, 11, 1),
-                     treatment_c = c(6, 12, NA))
+toy_df <- data.frame(name = c("John", "Jane", "Mary", "Bob"), 
+                     treatment_a = c(NA, 16, 3, 5),
+                     treatment_b = c(2, 11, 1, NA),
+                     treatment_c = c(6, 12, NA, 2))
 
 # Dropping NA using is.na()
 toy_df %>% 
   filter(!is.na(treatment_a))
 ```
-* drop.na()
+
+---
+## Issue 4 - Missing Values
+### Listwise deletion: `tidyr::drop_na()`
+
+* drop_na() is part of the tidyr package that drops rows with NAs in the specified column(s)
+```{r}
+toy_df %>% 
+  drop_na(treatment_a, treatment_b)
+```
+
 ```{r}
 # This check across all columns and drops all rows that have at least one NA.
 toy_df %>% 
   drop_na()
-```
-]
-
----
-## Saving files
-
-R has two native data formats:
-* rds: stores a *single* R object
-* RData: stores *multiple* R objects
-
----
-## Saving files
-
-### (1) Read/write .rds
-* **`write_rds()`, `read_rds()`**: Save and load a single object.
-
-```{r eval=F}
-library(tidyverse)
-a <- c(1,2,3)
-
-a %>% write_rds(file = 'data/a.rds')
-a <- read_rds('data/a.rds')
-
-a %>% write_rds(file = here('data', 'a.rds'))
-a <- read_rds(here('data', 'a.rds'))
-```
-
----
-## saving files
-
-### (2) Read/write .RData
-* **`save()`**: Save multiple objects.
-* **`save.image()`**: Save all the objects in the environment.  
-* **`load()`**: Load .RData file. Do not use **`<-`** (as .RData file stores the original object name as well).
-
-```{r eval=F}
-a <- c(1,2,3)
-b <- c(3,4,5)
-
-save(a, b, file = 'data.RData') # never use piping for 'save()'
-load('data.RData')
-
-save.image(file = 'data_all.RData') # saves everything
-load('data_all.RData')
 ```
 
 ---
@@ -304,7 +452,7 @@ load('data_all.RData')
 .small[
 * When using **apply()** or **map()**, you can provide an existing or a custom-made function.
 * Similar to lambda in Python, R has anonymous function. 
-* Anonymous function is a function defined on the fly and disappears after execution.
+* Anonymous function is **a function defined on the fly and disappears after execution.**
 
 .pull-left[
 ```{r}

@@ -4,21 +4,22 @@
     <title>Tidy Data</title>
     <meta charset="utf-8" />
     <meta name="author" content="Originally written by Bon Woo Koo &amp; Subhro Guhathakurta; modified by Uijeong Hwang" />
-    <script src="libs/header-attrs-2.24/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.27/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <script src="libs/kePrint-0.0.1/kePrint.js"></script>
     <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-    <script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
-    <script src="libs/jquery-1.12.4/jquery.min.js"></script>
+    <link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+    <script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+    <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
     <link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
     <script src="libs/leaflet-1.3.1/leaflet.js"></script>
     <link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
     <script src="libs/proj4-2.6.2/proj4.min.js"></script>
     <script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
     <link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
-    <script src="libs/leaflet-binding-2.1.2/leaflet.js"></script>
-    <script src="libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
-    <script src="libs/leaflet-providers-plugin-2.1.2/leaflet-providers-plugin.js"></script>
+    <script src="libs/leaflet-binding-2.2.2/leaflet.js"></script>
+    <script src="libs/leaflet-providers-2.0.0/leaflet-providers_2.0.0.js"></script>
+    <script src="libs/leaflet-providers-plugin-2.2.2/leaflet-providers-plugin.js"></script>
     <link rel="stylesheet" href="assets/sydney-fonts.css" type="text/css" />
     <link rel="stylesheet" href="assets/sydney.css" type="text/css" />
   </head>
@@ -35,9 +36,9 @@ class: middle, inverse
 ## Data Wrangling
 
 .font100[
-Subhro Guhathakurta &amp; Uijeong Hwang
+Uijeong "UJ" Hwang
 
-9/14/2023
+9/11/2024
 ]
 ---
 # Data are messy
@@ -57,10 +58,11 @@ For example:
 &lt;li&gt; Unstructured data
 &lt;/ol&gt;
 and the list goes on..
----
-# Issue 1 - Rows and columns do not represent observations and variables
 
-## The opposite of "messy" data is "tidy" data
+---
+## Issue 1 - Rows and columns do not represent observations and variables
+
+### The opposite of "messy" data is "tidy" data
 --
 
 .center[
@@ -78,8 +80,24 @@ In tidy data,
 
 - &lt;font color=blue&gt;You need to decide what is your "variable" and what is an individual "record"&lt;/font&gt;
 ---
-# Rearranging columns and rows
 ## Wide vs. Long forms
+* **Wide**: each row represents a unique entity, and repeated measures or different variables are spread across columns.
+* **Long**: each row represents a single observation, and each variable is in its own column.
+
+
+``` r
+census_wide &lt;- get_acs(geography="tract", 
+                       state="GA", 
+                       variables=c(hhincome='B19019_001', pop = "B02001_001"),
+                       county="Fulton", 
+                       year=2022, 
+*                      output="wide",
+                       geomtry=TRUE)
+```
+
+---
+## Wide vs. Long forms
+
 
 .small[
 .pull-left[
@@ -87,71 +105,71 @@ In tidy data,
 with `output="wide"`:
 
 
-```r
+``` r
 census_wide %&gt;% 
   head() %&gt;%  
   nice_table("350px")
 ```
 
-&lt;div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:350px; overflow-x: scroll; width:100%; "&gt;&lt;table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;"&gt;
+&lt;div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:350px; overflow-x: scroll; width:100%; "&gt;&lt;table class="table" style="font-size: 12px; color: black; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
    &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; GEOID &lt;/th&gt;
    &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; NAME &lt;/th&gt;
    &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; hhincomeE &lt;/th&gt;
    &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; hhincomeM &lt;/th&gt;
-   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; race.totE &lt;/th&gt;
-   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; race.totM &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; popE &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; popM &lt;/th&gt;
   &lt;/tr&gt;
  &lt;/thead&gt;
 &lt;tbody&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 13121010122 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Census Tract 101.22, Fulton County, Georgia &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 90586 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 14002 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 6383 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 650 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 13121000100 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Census Tract 1; Fulton County; Georgia &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 154808 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 80059 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5160 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 826 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 13121010123 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Census Tract 101.23, Fulton County, Georgia &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 77969 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 7510 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 5081 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 716 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 13121000201 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Census Tract 2.01; Fulton County; Georgia &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 120982 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 41480 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2233 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 250 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 13121010211 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Census Tract 102.11, Fulton County, Georgia &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 142750 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 22560 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2864 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 347 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 13121000202 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Census Tract 2.02; Fulton County; Georgia &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 182409 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 133772 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4106 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 856 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 13121007602 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Census Tract 76.02, Fulton County, Georgia &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 32500 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 5264 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2570 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 310 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 13121000400 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Census Tract 4; Fulton County; Georgia &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 127500 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 31440 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2014 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 270 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 13121001700 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Census Tract 17, Fulton County, Georgia &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 94750 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 19507 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 4911 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 403 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 13121000501 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Census Tract 5.01; Fulton County; Georgia &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 103485 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 11638 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4385 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 744 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 13121007802 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Census Tract 78.02, Fulton County, Georgia &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 51388 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 7637 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 10961 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1177 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 13121000502 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Census Tract 5.02; Fulton County; Georgia &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 120357 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 53413 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1779 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 298 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;&lt;/div&gt;
@@ -161,13 +179,13 @@ census_wide %&gt;%
 with `output="long"`:
 
 
-```r
+``` r
 census_long %&gt;% 
   head() %&gt;% 
   nice_table("350px")
 ```
 
-&lt;div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:350px; overflow-x: scroll; width:100%; "&gt;&lt;table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;"&gt;
+&lt;div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:350px; overflow-x: scroll; width:100%; "&gt;&lt;table class="table" style="font-size: 12px; color: black; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
    &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; GEOID &lt;/th&gt;
@@ -180,87 +198,118 @@ census_long %&gt;%
 &lt;tbody&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; 13121000100 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Census Tract 1, Fulton County, Georgia &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; race.tot &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 5410 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 359 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Census Tract 1; Fulton County; Georgia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; pop &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5160 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 826 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; 13121000100 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Census Tract 1, Fulton County, Georgia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Census Tract 1; Fulton County; Georgia &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; hhincome &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 168396 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 18644 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 154808 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 80059 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 13121000200 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Census Tract 2, Fulton County, Georgia &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; race.tot &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 6175 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 448 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 13121000201 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Census Tract 2.01; Fulton County; Georgia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; pop &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2233 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 250 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 13121000200 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Census Tract 2, Fulton County, Georgia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 13121000201 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Census Tract 2.01; Fulton County; Georgia &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; hhincome &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 158011 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 37856 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 120982 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 41480 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 13121000400 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Census Tract 4, Fulton County, Georgia &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; race.tot &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2047 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 292 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 13121000202 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Census Tract 2.02; Fulton County; Georgia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; pop &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4106 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 856 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 13121000400 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Census Tract 4, Fulton County, Georgia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 13121000202 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Census Tract 2.02; Fulton County; Georgia &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; hhincome &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 97257 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 30528 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 182409 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 133772 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;&lt;/div&gt;
 ]
 ]
 ---
-## Wide vs. Long forms
+## Wide format is useful when
+* Cross-sectional data
+* Comparison between multiple variables
+* Data export and reporting
+
+| student | math_score | science_score |
+|---------|------------|---------------|
+|   A     |   100      |  90           |
+|   B     |   85       |  80           |
+|   C     |   90       |  85           |
+|   D     |   98       |  95           |
+|   E     |   50       |  60           |
+|   F     |   70       |  40           |
+
+
+---
+## Long format is useful when
+* Time series data
+* Repeated measures of experiments
+* Grouped data
+
+| store |   month    |   sales |
+|-------|------------|---------|
+| A     |   Jan      |  500    |
+| A     |   Feb      |  300    |
+| A     |   Mar      |  500    |
+| B     |   Feb      |  200    |
+| B     |   Jan      |  450    |
+| B     |   Mar      |  600    |
+
+---
+## Wide -&gt; Long
 
 .small[
 
-```r
+``` r
 longer &lt;- census_wide %&gt;% 
-  pivot_longer(cols = hhincomeE:race.totM, # Cols to be affected
+  pivot_longer(cols = hhincomeE:popM, # Cols to be affected
                names_to = c("variable"), # Name for the label column
                values_to = c("value")) # Name for the value column
 longer
 ```
 
 ```
-## # A tibble: 816 × 4
-##    GEOID       NAME                                        variable   value
-##    &lt;chr&gt;       &lt;chr&gt;                                       &lt;chr&gt;      &lt;dbl&gt;
-##  1 13121010122 Census Tract 101.22, Fulton County, Georgia hhincomeE  90586
-##  2 13121010122 Census Tract 101.22, Fulton County, Georgia hhincomeM  14002
-##  3 13121010122 Census Tract 101.22, Fulton County, Georgia race.totE   6383
-##  4 13121010122 Census Tract 101.22, Fulton County, Georgia race.totM    650
-##  5 13121010123 Census Tract 101.23, Fulton County, Georgia hhincomeE  77969
-##  6 13121010123 Census Tract 101.23, Fulton County, Georgia hhincomeM   7510
-##  7 13121010123 Census Tract 101.23, Fulton County, Georgia race.totE   5081
-##  8 13121010123 Census Tract 101.23, Fulton County, Georgia race.totM    716
-##  9 13121010211 Census Tract 102.11, Fulton County, Georgia hhincomeE 142750
-## 10 13121010211 Census Tract 102.11, Fulton County, Georgia hhincomeM  22560
-## # ℹ 806 more rows
+## # A tibble: 1,308 × 4
+##    GEOID       NAME                                      variable   value
+##    &lt;chr&gt;       &lt;chr&gt;                                     &lt;chr&gt;      &lt;dbl&gt;
+##  1 13121000100 Census Tract 1; Fulton County; Georgia    hhincomeE 154808
+##  2 13121000100 Census Tract 1; Fulton County; Georgia    hhincomeM  80059
+##  3 13121000100 Census Tract 1; Fulton County; Georgia    popE        5160
+##  4 13121000100 Census Tract 1; Fulton County; Georgia    popM         826
+##  5 13121000201 Census Tract 2.01; Fulton County; Georgia hhincomeE 120982
+##  6 13121000201 Census Tract 2.01; Fulton County; Georgia hhincomeM  41480
+##  7 13121000201 Census Tract 2.01; Fulton County; Georgia popE        2233
+##  8 13121000201 Census Tract 2.01; Fulton County; Georgia popM         250
+##  9 13121000202 Census Tract 2.02; Fulton County; Georgia hhincomeE 182409
+## 10 13121000202 Census Tract 2.02; Fulton County; Georgia hhincomeM 133772
+## # ℹ 1,298 more rows
 ```
 ]
 
 ---
-## Wide vs. Long forms
+## Long -&gt; Wide
 
 .small[
 
-```r
+``` r
 wider &lt;- longer %&gt;% 
   pivot_wider(id_cols = c(GEOID, NAME), 
               names_from = c("variable"),
@@ -269,35 +318,32 @@ wider
 ```
 
 ```
-## # A tibble: 204 × 6
-##    GEOID       NAME                      hhincomeE hhincomeM race.totE race.totM
-##    &lt;chr&gt;       &lt;chr&gt;                         &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
-##  1 13121010122 Census Tract 101.22, Ful…     90586     14002      6383       650
-##  2 13121010123 Census Tract 101.23, Ful…     77969      7510      5081       716
-##  3 13121010211 Census Tract 102.11, Ful…    142750     22560      2864       347
-##  4 13121007602 Census Tract 76.02, Fult…     32500      5264      2570       310
-##  5 13121001700 Census Tract 17, Fulton …     94750     19507      4911       403
-##  6 13121007802 Census Tract 78.02, Fult…     51388      7637     10961      1177
-##  7 13121007805 Census Tract 78.05, Fult…     31174      5355      3397       633
-##  8 13121009700 Census Tract 97, Fulton …    208750     66170      3846       316
-##  9 13121010206 Census Tract 102.06, Ful…    192375     49707      5618       361
-## 10 13121011303 Census Tract 113.03, Ful…     45942      4865      9543       666
-## # ℹ 194 more rows
+## # A tibble: 327 × 6
+##    GEOID       NAME                              hhincomeE hhincomeM  popE  popM
+##    &lt;chr&gt;       &lt;chr&gt;                                 &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 13121000100 Census Tract 1; Fulton County; G…    154808     80059  5160   826
+##  2 13121000201 Census Tract 2.01; Fulton County…    120982     41480  2233   250
+##  3 13121000202 Census Tract 2.02; Fulton County…    182409    133772  4106   856
+##  4 13121000400 Census Tract 4; Fulton County; G…    127500     31440  2014   270
+##  5 13121000501 Census Tract 5.01; Fulton County…    103485     11638  4385   744
+##  6 13121000502 Census Tract 5.02; Fulton County…    120357     53413  1779   298
+##  7 13121000601 Census Tract 6.01; Fulton County…     76346     28684  4626   604
+##  8 13121000602 Census Tract 6.02; Fulton County…     65391     22126  2960   559
+##  9 13121000700 Census Tract 7; Fulton County; G…    103167     37596  2897   283
+## 10 13121001001 Census Tract 10.01; Fulton Count…    100278     16354  4800   497
+## # ℹ 317 more rows
 ```
 ]
 
 ---
-# Issue 2 - Duplicated or redundant rows/columns
-&lt;ol&gt;
-&lt;li&gt; Duplicated rows is a common issue when using API to acquire data
-&lt;li&gt; Multiple functions exist in R to deal with duplicates 
-&lt;li&gt; Most frequently used ones include:
-&lt;ol&gt;
-- duplicated() and distinct()
+## Issue 2 - Duplicated rows/columns
+
+* Duplicated rows is a common issue when using API to acquire data
+* Most frequently used functions to deal with duplicates include:
+  * duplicated() and distinct()
 
 
-
-```r
+``` r
 dupl_df &lt;- data.frame(name = c("A", "A", "B", "C", "C", "C", "D"),
                       GPA = c(3.5, 3.5, 4.0, 2.0, 3.0, 3.0, 2.0)) 
 duplicated(dupl_df$name)
@@ -306,11 +352,13 @@ duplicated(dupl_df$name)
 ```
 ## [1] FALSE  TRUE FALSE FALSE  TRUE  TRUE FALSE
 ```
+
 ---
-# !duplicated()
+## Issue 2 - Duplicated rows/columns
+### !duplicated()
 
 
-```r
+``` r
 # Duplicates in column "name" removed.
 dupl_df[!duplicated(dupl_df$name),]
 ```
@@ -322,10 +370,28 @@ dupl_df[!duplicated(dupl_df$name),]
 ## 4    C 2.0
 ## 7    D 2.0
 ```
----
-# distinct()
 
-```r
+
+``` r
+dupl_df[!duplicated(dupl_df),]
+```
+
+```
+##   name GPA
+## 1    A 3.5
+## 3    B 4.0
+## 4    C 2.0
+## 5    C 3.0
+## 7    D 2.0
+```
+
+
+---
+## Issue 2 - Duplicated rows/columns
+### `dplyr::distinct()`
+
+
+``` r
 # Returns a vector, not data frame
 dupl_df %&gt;% 
   distinct(name) # Try adding .keep_all = TRUE argument 
@@ -339,7 +405,8 @@ dupl_df %&gt;%
 ## 4    D
 ```
 
-```r
+
+``` r
 # Returns a data frame
 dupl_df %&gt;% 
   distinct(name, GPA)
@@ -353,61 +420,120 @@ dupl_df %&gt;%
 ## 4    C 3.0
 ## 5    D 2.0
 ```
----
-# Issue 3 - Multiple variables in one column
-## This issue comes in two broad types.
-
-1. Different variables can be concatenated into a long string
-
-A very common example from Census data: you fill often find something like &lt;b&gt;Census Tract 9501, Appling County, Georgia&lt;/b&gt; in a single column
-
-It contains at least three variables: Tract, County, and State
-
-We can break the string down into pieces using &lt;font color=red&gt;separate()&lt;/font&gt; from &lt;font color=blue&gt;tidyr&lt;/font&gt; package
 
 ---
-# separate()
+## Issue 3 - Multiple variables in one column
+### Case 1. different variables can be concatenated into a long string
 
-```r
+* A very common example from Census data: you often find something like &lt;b&gt;Census Tract 9501, Appling County, Georgia&lt;/b&gt; in a single column
+* It contains at least three variables: Tract, County, and State
+* We can break the string down into pieces using `separate()` from `tidyr` package or `str_split_fixed()` from `stringr` package.
+
+---
+## Issue 3 - Multiple variables in one column
+### `tidyr::separate()`
+
+
+``` r
 # A character vector to split
 onecol_df &lt;- data.frame(labels = c('a1','b_2','c_3_2','d_4_1'))
 # split the character at _
-onecol_df %&gt;% separate(col = "labels", sep = "_", into = c("alphabet", "numeric")) 
+onecol_df_separate &lt;- onecol_df %&gt;% 
+  separate(col = "labels", 
+           sep = "_",
+           into = c("alphabet", "number1", "number2")) 
 ```
 
 ```
-## Warning: Expected 2 pieces. Additional pieces discarded in 2 rows [3, 4].
+## Warning: Expected 3 pieces. Missing pieces filled with `NA` in 2 rows [1, 2].
+```
+
+``` r
+print(onecol_df_separate)
 ```
 
 ```
-## Warning: Expected 2 pieces. Missing pieces filled with `NA` in 1 rows [1].
+##   alphabet number1 number2
+## 1       a1    &lt;NA&gt;    &lt;NA&gt;
+## 2        b       2    &lt;NA&gt;
+## 3        c       3       2
+## 4        d       4       1
 ```
 
-```
-##   alphabet numeric
-## 1       a1    &lt;NA&gt;
-## 2        b       2
-## 3        c       3
-## 4        d       4
-```
 ---
-# The second type:
-##One column in a data frame can contain another data frame or a list
-This data structure is frequently found when we convert something like a JSON, which can have nested structure, into a data frame. 
+## Issue 3 - Multiple variables in one column
+### `stringr::str_split_fixed()`
 
-In such cases you need to &lt;font color=blue&gt;flatten&lt;/font&gt; the data frame using jsonlite::flatten() which will automatically generate columns that concatenate the name of the column with the nested columns inside
 
---
+``` r
+onecol_df_split &lt;- str_split_fixed(onecol_df$labels,
+                                   pattern = "_", 
+                                   n = 3)
 
-Even after flattening, there could be list-columns remaining. These will have to be addressed individually according to your needs 
+print(onecol_df_split)
+```
+
+```
+##      [,1] [,2] [,3]
+## [1,] "a1" ""   ""  
+## [2,] "b"  "2"  ""  
+## [3,] "c"  "3"  "2" 
+## [4,] "d"  "4"  "1"
+```
+
+
 ---
-# Issue 4 - Missing Values
-In R, NA is used to represent missing data 
+## Issue 3 - Multiple variables in one column
+### Case 2. a column in a data frame contains another data frame, list, or dictionary
 
-Many core functions in R does not work properly when NA is in the vector (e.g., try mean(c(NA, 1, 2, 3)))
+.small[
+.pull-left[
+* This case is frequently found when we convert JSON, which can have nested structure, into a data frame.
+* In such cases you need to &lt;font color=blue&gt;flatten&lt;/font&gt; the data frame using jsonlite::flatten() which will automatically generate columns that concatenate the name of the column with the nested columns inside.
+* Even after flattening, there could be list-columns remaining. These will have to be addressed individually according to your needs.
+
+]
+
+.pull-right[
+![](json_example.PNG)
+]
+]
+
+---
+## Issue 3 - Multiple variables in one column
+### JSON example
 
 
-```r
+``` r
+jsonlite::fromJSON("json_example.json") %&gt;% .$orders %&gt;% sapply(class)
+```
+
+```
+##     order_id         date     customer     products total_amount 
+##    "integer"  "character" "data.frame"       "list"    "integer"
+```
+
+``` r
+jsonlite::fromJSON("json_example.json", flatten = T) %&gt;% .$orders %&gt;% sapply(class)
+```
+
+```
+##             order_id                 date             products 
+##            "integer"          "character"               "list" 
+##         total_amount customer.customer_id        customer.name 
+##            "integer"            "integer"          "character" 
+##       customer.email 
+##          "character"
+```
+
+
+---
+## Issue 4 - Missing Values
+* In R, NA is used to represent missing data 
+* Many core functions in R does not work properly when NA is in the vector, so those values should be taken care of.
+
+
+``` r
 avg &lt;- mean(c(NA, 10, 25, 3))
 avg
 ```
@@ -415,23 +541,250 @@ avg
 ```
 ## [1] NA
 ```
-So it is imperative that NAs are taken care of
 
-is.na() is a Base R function that returns a logical object (TRUE/FALSE)
-
-drop.na() is part of the tidyr package that drops columns with NAs
-
-If drop.na() is used without specifying columns then only those rows that do not have NAs will be retained
 ---
-.small[
-* is.na()
+## Issue 4 - Missing Values
+### How to deal with missing values
 
-```r
-# This is the same toy_df from above
-toy_df &lt;- data.frame(name = c("John", "Jane", "Mary"), 
-                     treatment_a = c(NA, 16, 3),
-                     treatment_b = c(2, 11, 1),
-                     treatment_c = c(6, 12, NA))
+* Deletion
+  * Listwise
+  * Pairwise
+  * Dropping a variable
+
+* Imputation/interpolation
+
+---
+## Issue 4 - Missing Values
+### Listwise deletion
+
+* Removes all data for a case that has one or more missing values.
+&lt;table class="table" style="color: black; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; student &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; math_score &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; science_score &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; english_score &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; A &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 90 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 75 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; B &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 85 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 80 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: yellow !important;"&gt; C &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 85 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; NA &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; D &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 98 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 95 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 40 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; E &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 50 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; F &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 70 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 65 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 40 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+## Issue 4 - Missing Values
+### Pairwise deletion
+* Attempts to minimize the loss that occurs in listwise deletion. 
+&lt;table class="table" style="color: black; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; student &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; math_score &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; science_score &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; english_score &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; A &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 90 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 75 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; B &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 85 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 80 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; C &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 90 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 85 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: yellow !important;"&gt;NA&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; D &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: yellow !important;"&gt;NA&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 95 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 40 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; E &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 50 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; F &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 70 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style="     border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: yellow !important;"&gt;NA&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 40 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+## Issue 4 - Missing Values
+### Dropping a variable
+
+* Discard a variable that is missing for a large portion of the observations.
+&lt;table class="table" style="color: black; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; student &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; math_score &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; science_score &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; english_score &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; A &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 90 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 75 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; B &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 85 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 80 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 100 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; C &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 90 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 85 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; NA &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; D &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 98 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 95 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; NA &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; E &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 50 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; NA &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; F &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 70 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 65 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 40 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+## Issue 4 - Missing Values
+### Imputation/interpolation
+.small[
+* Imputation
+  * Mean, median, mode, or other statistical methods like KNN
+  * **No specific assumptions about data continuity**
+* Interpolation
+  * Linear, polynomial, or spline interpolation
+  * **Assumes some continuity and smooth transition between data points**
+
+&lt;table class="table" style="color: black; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; student &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; math_score &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; science_score &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; english_score &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; A &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 90 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 75 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; B &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 85 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 80 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; C &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 90 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 70 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; D &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 98 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 95 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 40 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; E &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 50 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; F &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 70 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 65 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 40 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+---
+## Issue 4 - Missing Values
+### Listwise deletion: `is.na()`
+
+* is.na() is a Base R function that returns a logical object (TRUE/FALSE)
+
+``` r
+toy_df &lt;- data.frame(name = c("John", "Jane", "Mary", "Bob"), 
+                     treatment_a = c(NA, 16, 3, 5),
+                     treatment_b = c(2, 11, 1, NA),
+                     treatment_c = c(6, 12, NA, 2))
 
 # Dropping NA using is.na()
 toy_df %&gt;% 
@@ -442,10 +795,28 @@ toy_df %&gt;%
 ##   name treatment_a treatment_b treatment_c
 ## 1 Jane          16          11          12
 ## 2 Mary           3           1          NA
+## 3  Bob           5          NA           2
 ```
-* drop.na()
 
-```r
+---
+## Issue 4 - Missing Values
+### Listwise deletion: `tidyr::drop_na()`
+
+* drop_na() is part of the tidyr package that drops rows with NAs in the specified column(s)
+
+``` r
+toy_df %&gt;% 
+  drop_na(treatment_a, treatment_b)
+```
+
+```
+##   name treatment_a treatment_b treatment_c
+## 1 Jane          16          11          12
+## 2 Mary           3           1          NA
+```
+
+
+``` r
 # This check across all columns and drops all rows that have at least one NA.
 toy_df %&gt;% 
   drop_na()
@@ -455,42 +826,6 @@ toy_df %&gt;%
 ##   name treatment_a treatment_b treatment_c
 ## 1 Jane          16          11          12
 ```
-]
-
----
-## Saving files
-
-### (1) Read/write .rds
-* **`write_rds()`, `read_rds()`**: They work the same way as `write_csv()` and `read_csv()`.
-
-
-```r
-library(tidyverse)
-a &lt;- c(1,2,3)
-
-a %&gt;% write_rds(file = 'data.rds')
-a &lt;- read_rds('data.rds')
-```
-
----
-## saving files
-
-### (2) Read/write .RData
-* **`save()`**: Save multiple objects.
-* **`save.image()`**: Save the entire environment.  
-* **`load()`**: Load .RData file. Do not use **`&lt;-`** (as .RData file stores the original object name as well).
-
-
-```r
-a &lt;- c(1,2,3)
-b &lt;- c(3,4,5)
-
-save(a, b, file = 'data.RData') # never use piping for 'save()'
-load('data.RData')
-
-save.image(file = 'data_all.RData')
-load('data_all.RData')
-```
 
 ---
 ## Anonymous function
@@ -498,11 +833,11 @@ load('data_all.RData')
 .small[
 * When using **apply()** or **map()**, you can provide an existing or a custom-made function.
 * Similar to lambda in Python, R has anonymous function. 
-* Anonymous function is a function defined on the fly and disappears after execution.
+* Anonymous function is **a function defined on the fly and disappears after execution.**
 
 .pull-left[
 
-```r
+``` r
 map(1:5, # input vector
     function(x) x + 1) # anonymous function
 ```
@@ -527,7 +862,7 @@ map(1:5, # input vector
 
 .pull-right[
 
-```r
+``` r
 map(1:5, # input vector
     function(x){ # anonymous function with {}
       out &lt;- (x + 1)*x
@@ -563,7 +898,7 @@ map(1:5, # input vector
 * `x`s inside the anonymous function needs to be preceded by a period (.). See the example below.
 
 
-```r
+``` r
 map(1:5, # input
     ~(.x + 1)*.x ) # tilde replaces function().  # x is preceded by a period
 ```
@@ -593,7 +928,7 @@ map(1:5, # input
 
 .pull-left[
 
-```r
+``` r
 # A data frame with XY info
 point_df &lt;- data.frame(
   x = c(-84.3991, -84.4010, -84.3899), 
@@ -609,8 +944,8 @@ tm_shape(point_sf) + tm_dots()
 ]
 
 .pull-right[
-<div class="leaflet html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-00ebf5bd42838029c7b6" style="width:100%;height:504px;"></div>
-<script type="application/json" data-for="htmlwidget-00ebf5bd42838029c7b6">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"createMapPane","args":["tmap401",401]},{"method":"addProviderTiles","args":["Esri.WorldGrayCanvas",null,"Esri.WorldGrayCanvas",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["OpenStreetMap",null,"OpenStreetMap",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["Esri.WorldTopoMap",null,"Esri.WorldTopoMap",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"pane":"tilePane"}]},{"method":"addCircleMarkers","args":[[33.777,33.7748,33.7777],[-84.3991,-84.401,-84.3899],[2.82842712474619,2.82842712474619,2.82842712474619],[null,null,null],"point_sf",{"interactive":true,"className":"","pane":"tmap401","stroke":true,"color":"#666666","weight":1,"opacity":0.5,"fill":true,"fillColor":["#000000","#000000","#000000"],"fillOpacity":[1,1,1]},null,null,null,null,[null,null,null],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLayersControl","args":[["Esri.WorldGrayCanvas","OpenStreetMap","Esri.WorldTopoMap"],"point_sf",{"collapsed":true,"autoZIndex":true,"position":"topleft"}]}],"limits":{"lat":[33.7748,33.7777],"lng":[-84.401,-84.3899]},"fitBounds":[33.7748,-84.401,33.7777,-84.3899,[]]},"evals":[],"jsHooks":[]}</script>
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-fe103914434f1ca46ee3" style="width:100%;height:504px;"></div>
+<script type="application/json" data-for="htmlwidget-fe103914434f1ca46ee3">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"createMapPane","args":["tmap401",401]},{"method":"addProviderTiles","args":["Esri.WorldGrayCanvas",null,"Esri.WorldGrayCanvas",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["OpenStreetMap",null,"OpenStreetMap",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["Esri.WorldTopoMap",null,"Esri.WorldTopoMap",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"pane":"tilePane"}]},{"method":"addCircleMarkers","args":[[33.777,33.7748,33.7777],[-84.3991,-84.401,-84.3899],[2.82842712474619,2.82842712474619,2.82842712474619],[null,null,null],"point_sf",{"interactive":true,"className":"","pane":"tmap401","stroke":true,"color":"#666666","weight":1,"opacity":0.5,"fill":true,"fillColor":["#000000","#000000","#000000"],"fillOpacity":[1,1,1]},null,null,null,null,[null,null,null],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLayersControl","args":[["Esri.WorldGrayCanvas","OpenStreetMap","Esri.WorldTopoMap"],"point_sf",{"collapsed":true,"autoZIndex":true,"position":"topleft"}]}],"limits":{"lat":[33.7748,33.7777],"lng":[-84.401,-84.3899]},"fitBounds":[33.7748,-84.401,33.7777,-84.3899,[]]},"evals":[],"jsHooks":[]}</script>
 ]
 
 
@@ -623,7 +958,7 @@ tm_shape(point_sf) + tm_dots()
 
 grepl(.red[pattern], .blue[string])
 
-```r
+``` r
 a &lt;- c("yoga studio", "health gym", "pizza", "YoGa")
 grepl("yoga", a)
 ```
@@ -634,7 +969,7 @@ grepl("yoga", a)
 
 str_detect(.blue[string], .red[pattern])
 
-```r
+``` r
 str_detect(a, "yoga")
 ```
 
