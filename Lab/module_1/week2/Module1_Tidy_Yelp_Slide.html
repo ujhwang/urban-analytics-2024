@@ -4,11 +4,10 @@
     <title>Tidy Data</title>
     <meta charset="utf-8" />
     <meta name="author" content="Originally written by Bon Woo Koo &amp; Subhro Guhathakurta; modified by Uijeong Hwang" />
-    <script src="libs/header-attrs-2.27/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <script src="libs/kePrint-0.0.1/kePrint.js"></script>
     <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-    <link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
     <script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
     <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
     <link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
@@ -17,9 +16,9 @@
     <script src="libs/proj4-2.6.2/proj4.min.js"></script>
     <script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
     <link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
-    <script src="libs/leaflet-binding-2.2.2/leaflet.js"></script>
+    <script src="libs/leaflet-binding-2.2.1/leaflet.js"></script>
     <script src="libs/leaflet-providers-2.0.0/leaflet-providers_2.0.0.js"></script>
-    <script src="libs/leaflet-providers-plugin-2.2.2/leaflet-providers-plugin.js"></script>
+    <script src="libs/leaflet-providers-plugin-2.2.1/leaflet-providers-plugin.js"></script>
     <link rel="stylesheet" href="assets/sydney-fonts.css" type="text/css" />
     <link rel="stylesheet" href="assets/sydney.css" type="text/css" />
   </head>
@@ -85,7 +84,7 @@ In tidy data,
 * **Long**: each row represents a single observation, and each variable is in its own column.
 
 
-``` r
+```r
 census_wide &lt;- get_acs(geography="tract", 
                        state="GA", 
                        variables=c(hhincome='B19019_001', pop = "B02001_001"),
@@ -105,13 +104,13 @@ census_wide &lt;- get_acs(geography="tract",
 with `output="wide"`:
 
 
-``` r
+```r
 census_wide %&gt;% 
   head() %&gt;%  
   nice_table("350px")
 ```
 
-&lt;div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:350px; overflow-x: scroll; width:100%; "&gt;&lt;table class="table" style="font-size: 12px; color: black; margin-left: auto; margin-right: auto;"&gt;
+&lt;div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:350px; overflow-x: scroll; width:100%; "&gt;&lt;table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
    &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; GEOID &lt;/th&gt;
@@ -179,13 +178,13 @@ census_wide %&gt;%
 with `output="long"`:
 
 
-``` r
+```r
 census_long %&gt;% 
   head() %&gt;% 
   nice_table("350px")
 ```
 
-&lt;div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:350px; overflow-x: scroll; width:100%; "&gt;&lt;table class="table" style="font-size: 12px; color: black; margin-left: auto; margin-right: auto;"&gt;
+&lt;div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:350px; overflow-x: scroll; width:100%; "&gt;&lt;table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
    &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; GEOID &lt;/th&gt;
@@ -278,7 +277,7 @@ census_long %&gt;%
 
 .small[
 
-``` r
+```r
 longer &lt;- census_wide %&gt;% 
   pivot_longer(cols = hhincomeE:popM, # Cols to be affected
                names_to = c("variable"), # Name for the label column
@@ -309,7 +308,7 @@ longer
 
 .small[
 
-``` r
+```r
 wider &lt;- longer %&gt;% 
   pivot_wider(id_cols = c(GEOID, NAME), 
               names_from = c("variable"),
@@ -343,7 +342,7 @@ wider
   * duplicated() and distinct()
 
 
-``` r
+```r
 dupl_df &lt;- data.frame(name = c("A", "A", "B", "C", "C", "C", "D"),
                       GPA = c(3.5, 3.5, 4.0, 2.0, 3.0, 3.0, 2.0)) 
 duplicated(dupl_df$name)
@@ -358,7 +357,7 @@ duplicated(dupl_df$name)
 ### !duplicated()
 
 
-``` r
+```r
 # Duplicates in column "name" removed.
 dupl_df[!duplicated(dupl_df$name),]
 ```
@@ -372,7 +371,7 @@ dupl_df[!duplicated(dupl_df$name),]
 ```
 
 
-``` r
+```r
 dupl_df[!duplicated(dupl_df),]
 ```
 
@@ -391,7 +390,7 @@ dupl_df[!duplicated(dupl_df),]
 ### `dplyr::distinct()`
 
 
-``` r
+```r
 # Returns a vector, not data frame
 dupl_df %&gt;% 
   distinct(name) # Try adding .keep_all = TRUE argument 
@@ -406,7 +405,7 @@ dupl_df %&gt;%
 ```
 
 
-``` r
+```r
 # Returns a data frame
 dupl_df %&gt;% 
   distinct(name, GPA)
@@ -434,7 +433,7 @@ dupl_df %&gt;%
 ### `tidyr::separate()`
 
 
-``` r
+```r
 # A character vector to split
 onecol_df &lt;- data.frame(labels = c('a1','b_2','c_3_2','d_4_1'))
 # split the character at _
@@ -448,7 +447,7 @@ onecol_df_separate &lt;- onecol_df %&gt;%
 ## Warning: Expected 3 pieces. Missing pieces filled with `NA` in 2 rows [1, 2].
 ```
 
-``` r
+```r
 print(onecol_df_separate)
 ```
 
@@ -465,7 +464,7 @@ print(onecol_df_separate)
 ### `stringr::str_split_fixed()`
 
 
-``` r
+```r
 onecol_df_split &lt;- str_split_fixed(onecol_df$labels,
                                    pattern = "_", 
                                    n = 3)
@@ -495,7 +494,7 @@ print(onecol_df_split)
 ]
 
 .pull-right[
-![](json_example.PNG)
+![](json_example.png)
 ]
 ]
 
@@ -504,7 +503,7 @@ print(onecol_df_split)
 ### JSON example
 
 
-``` r
+```r
 jsonlite::fromJSON("json_example.json") %&gt;% .$orders %&gt;% sapply(class)
 ```
 
@@ -513,7 +512,7 @@ jsonlite::fromJSON("json_example.json") %&gt;% .$orders %&gt;% sapply(class)
 ##    "integer"  "character" "data.frame"       "list"    "integer"
 ```
 
-``` r
+```r
 jsonlite::fromJSON("json_example.json", flatten = T) %&gt;% .$orders %&gt;% sapply(class)
 ```
 
@@ -533,7 +532,7 @@ jsonlite::fromJSON("json_example.json", flatten = T) %&gt;% .$orders %&gt;% sapp
 * Many core functions in R does not work properly when NA is in the vector, so those values should be taken care of.
 
 
-``` r
+```r
 avg &lt;- mean(c(NA, 10, 25, 3))
 avg
 ```
@@ -558,7 +557,7 @@ avg
 ### Listwise deletion
 
 * Removes all data for a case that has one or more missing values.
-&lt;table class="table" style="color: black; margin-left: auto; margin-right: auto;"&gt;
+&lt;table class="table" style="margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
    &lt;th style="text-align:left;"&gt; student &lt;/th&gt;
@@ -611,7 +610,7 @@ avg
 ## Issue 4 - Missing Values
 ### Pairwise deletion
 * Attempts to minimize the loss that occurs in listwise deletion. 
-&lt;table class="table" style="color: black; margin-left: auto; margin-right: auto;"&gt;
+&lt;table class="table" style="margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
    &lt;th style="text-align:left;"&gt; student &lt;/th&gt;
@@ -665,7 +664,7 @@ avg
 ### Dropping a variable
 
 * Discard a variable that is missing for a large portion of the observations.
-&lt;table class="table" style="color: black; margin-left: auto; margin-right: auto;"&gt;
+&lt;table class="table" style="margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
    &lt;th style="text-align:left;"&gt; student &lt;/th&gt;
@@ -725,7 +724,7 @@ avg
   * Linear, polynomial, or spline interpolation
   * **Assumes some continuity and smooth transition between data points**
 
-&lt;table class="table" style="color: black; margin-left: auto; margin-right: auto;"&gt;
+&lt;table class="table" style="margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
    &lt;th style="text-align:left;"&gt; student &lt;/th&gt;
@@ -780,7 +779,7 @@ avg
 
 * is.na() is a Base R function that returns a logical object (TRUE/FALSE)
 
-``` r
+```r
 toy_df &lt;- data.frame(name = c("John", "Jane", "Mary", "Bob"), 
                      treatment_a = c(NA, 16, 3, 5),
                      treatment_b = c(2, 11, 1, NA),
@@ -804,7 +803,7 @@ toy_df %&gt;%
 
 * drop_na() is part of the tidyr package that drops rows with NAs in the specified column(s)
 
-``` r
+```r
 toy_df %&gt;% 
   drop_na(treatment_a, treatment_b)
 ```
@@ -816,7 +815,7 @@ toy_df %&gt;%
 ```
 
 
-``` r
+```r
 # This check across all columns and drops all rows that have at least one NA.
 toy_df %&gt;% 
   drop_na()
@@ -837,7 +836,7 @@ toy_df %&gt;%
 
 .pull-left[
 
-``` r
+```r
 map(1:5, # input vector
     function(x) x + 1) # anonymous function
 ```
@@ -862,7 +861,7 @@ map(1:5, # input vector
 
 .pull-right[
 
-``` r
+```r
 map(1:5, # input vector
     function(x){ # anonymous function with {}
       out &lt;- (x + 1)*x
@@ -898,7 +897,7 @@ map(1:5, # input vector
 * `x`s inside the anonymous function needs to be preceded by a period (.). See the example below.
 
 
-``` r
+```r
 map(1:5, # input
     ~(.x + 1)*.x ) # tilde replaces function().  # x is preceded by a period
 ```
@@ -928,7 +927,7 @@ map(1:5, # input
 
 .pull-left[
 
-``` r
+```r
 # A data frame with XY info
 point_df &lt;- data.frame(
   x = c(-84.3991, -84.4010, -84.3899), 
@@ -944,8 +943,8 @@ tm_shape(point_sf) + tm_dots()
 ]
 
 .pull-right[
-<div class="leaflet html-widget html-fill-item" id="htmlwidget-fe103914434f1ca46ee3" style="width:100%;height:504px;"></div>
-<script type="application/json" data-for="htmlwidget-fe103914434f1ca46ee3">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"createMapPane","args":["tmap401",401]},{"method":"addProviderTiles","args":["Esri.WorldGrayCanvas",null,"Esri.WorldGrayCanvas",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["OpenStreetMap",null,"OpenStreetMap",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["Esri.WorldTopoMap",null,"Esri.WorldTopoMap",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"pane":"tilePane"}]},{"method":"addCircleMarkers","args":[[33.777,33.7748,33.7777],[-84.3991,-84.401,-84.3899],[2.82842712474619,2.82842712474619,2.82842712474619],[null,null,null],"point_sf",{"interactive":true,"className":"","pane":"tmap401","stroke":true,"color":"#666666","weight":1,"opacity":0.5,"fill":true,"fillColor":["#000000","#000000","#000000"],"fillOpacity":[1,1,1]},null,null,null,null,[null,null,null],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLayersControl","args":[["Esri.WorldGrayCanvas","OpenStreetMap","Esri.WorldTopoMap"],"point_sf",{"collapsed":true,"autoZIndex":true,"position":"topleft"}]}],"limits":{"lat":[33.7748,33.7777],"lng":[-84.401,-84.3899]},"fitBounds":[33.7748,-84.401,33.7777,-84.3899,[]]},"evals":[],"jsHooks":[]}</script>
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-23b1fe3f414eee8100e8" style="width:100%;height:504px;"></div>
+<script type="application/json" data-for="htmlwidget-23b1fe3f414eee8100e8">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"createMapPane","args":["tmap401",401]},{"method":"addProviderTiles","args":["Esri.WorldGrayCanvas",null,"Esri.WorldGrayCanvas",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["OpenStreetMap",null,"OpenStreetMap",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["Esri.WorldTopoMap",null,"Esri.WorldTopoMap",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"pane":"tilePane"}]},{"method":"addCircleMarkers","args":[[33.777,33.7748,33.7777],[-84.3991,-84.401,-84.3899],[2.82842712474619,2.82842712474619,2.82842712474619],[null,null,null],"point_sf",{"interactive":true,"className":"","pane":"tmap401","stroke":true,"color":"#666666","weight":1,"opacity":0.5,"fill":true,"fillColor":["#000000","#000000","#000000"],"fillOpacity":[1,1,1]},null,null,null,null,[null,null,null],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLayersControl","args":[["Esri.WorldGrayCanvas","OpenStreetMap","Esri.WorldTopoMap"],"point_sf",{"collapsed":true,"autoZIndex":true,"position":"topleft"}]}],"limits":{"lat":[33.7748,33.7777],"lng":[-84.401,-84.3899]},"fitBounds":[33.7748,-84.401,33.7777,-84.3899,[]]},"evals":[],"jsHooks":[]}</script>
 ]
 
 
@@ -958,7 +957,7 @@ tm_shape(point_sf) + tm_dots()
 
 grepl(.red[pattern], .blue[string])
 
-``` r
+```r
 a &lt;- c("yoga studio", "health gym", "pizza", "YoGa")
 grepl("yoga", a)
 ```
@@ -969,7 +968,7 @@ grepl("yoga", a)
 
 str_detect(.blue[string], .red[pattern])
 
-``` r
+```r
 str_detect(a, "yoga")
 ```
 

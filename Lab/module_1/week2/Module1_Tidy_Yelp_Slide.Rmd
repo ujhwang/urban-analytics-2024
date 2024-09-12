@@ -291,7 +291,7 @@ print(onecol_df_split)
 ]
 
 .pull-right[
-![](json_example.PNG)
+![](json_example.png)
 ]
 ]
 
