@@ -509,6 +509,11 @@ yelp_all <- yelp_all_list %>% bind_rows() %>% as_tibble()
 yelp_all %>% print(width=1000)
 ```
 
+# Saving the data
+```{r}
+saveRDS(yelp_all, here('yelp_data.rds'))
+```
+
 # Glimpse
 We have yelp information on restaurant in data frame format. We have 16 columns. We will take a closer look at them next week. For now, let's just map them.
 
@@ -525,8 +530,4 @@ tm_shape(yelp_sf) +
   tm_dots(col = "review_count", style="quantile")
 ```
 
-# Saving the data
-```{r}
-save(yelp_sf, file = here('yelp_sf.RData'))
-```
 
