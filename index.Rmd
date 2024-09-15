@@ -101,8 +101,8 @@ topic_col <- c(
   "Census & Yelp API ([RMD](https://ujhwang.github.io/urban-analytics-2024/Lab/module_1/week1/Module1_Yelp_Census.Rmd), 
   [HTML](https://ujhwang.github.io/urban-analytics-2024/Lab/module_1/week1/Module1_Yelp_Census.html)) <br> Data Wrangling [(Slides)](https://ujhwang.github.io/urban-analytics-2024/Lab/module_1/week2/Module1_Tidy_Yelp_Slide.html)",# 4
   
-  "Data Wrangling: Hands-on ([RMD](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg),
-  [HTML](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)) <br> Deriving Insights from Your Data [(Slides)](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)",# 5
+  "Data Wrangling: Hands-on ([RMD](https://ujhwang.github.io/urban-analytics-2024/Lab/module_1/week2/Module1_Tidy_Yelp_class.Rmd),
+  [HTML](https://ujhwang.github.io/urban-analytics-2024/Lab/module_1/week2/Module1_Tidy_Yelp.html)) <br> Deriving Insights from Your Data [(Slides)](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)",# 5
   
   "Deriving Insights from Your Data: Hands-on ([RMD](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg),
   [HTML](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)) <br> Storytelling with Data [(Slides)](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)",# 6

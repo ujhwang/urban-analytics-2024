@@ -1,7 +1,7 @@
 ---
 title: "Tidying Yelp and Census Data"
 author: "Originally written by Bon Woo Koo & Subhro Guhathakurta; modified by Uijeong Hwang"
-date: '2023-09-16'
+date: '2024-09-16'
 output:
   rmdformats::downcute:
     downcute_theme: "chaos"
@@ -83,7 +83,7 @@ Jane Doe     b           11
 Mary Johnson b           1
 ------------ ----------- ----------- 
 
-I personally think both Table 2 and 3 have their own use cases (let's not consider Table 1 anymore). For example, if we are interested in comparing treatment A and B (e.g., a t-test, correlation analysis, etc.), wide form would be more intuitive. In contrast, if we are interested in making graphs like [these examples](https://ggplot2.tidyverse.org/reference/facet_grid.html), ggplot2 package in R  requires data to be in a long form. 
+Both Table 2 and 3 have their own use cases (let's not consider Table 1 anymore). For example, if we are interested in comparing treatment A and B (e.g., a t-test, correlation analysis, etc.), wide form would be more intuitive. In contrast, if we are interested in making graphs like [these examples](https://ggplot2.tidyverse.org/reference/facet_grid.html), ggplot2 package in R  requires data to be in a long form. 
 
 In R, there are multiple ways to transform data between wide and long forms. I recommend **pivot_longer()** and **pivot_wider()** functions in tidyr package. Let's do some exercises using a toy data.
 
@@ -95,23 +95,26 @@ toy_df <- data.frame(name = c("John", "Jane", "Mary"),
                      treatment_b = c(2, 11, 1),
                      treatment_c = c(6, 12, NA))
 print(toy_df)
+```
 
+```{r}
 # pivot longer
 (toy_long <- toy_df %>% 
-  pivot_longer(cols = treatment_a:treatment_c, 
-               names_to = 'treatment', # new column name for 'cols' in character
-               values_to = 'result')) # new name for the column storing the values in character
+  pivot_longer(cols = ????, # specify columns to convert
+               names_to = ????, # new column name for 'cols' in character
+               values_to = ????)) # new name for the column storing the values in character
+```
+
+```{r}
 # back to wider
 (toy_wide <- toy_long %>% 
-  pivot_wider(id_cols = name, # unique identifier
-              names_from = treatment, # from which columns should the new column names come?
-              values_from = result)) # from which columns should the values come?
+  pivot_wider(id_cols = ????, # unique identifier
+              names_from = ????, # from which columns should the new column names come?
+              values_from = ????)) # from which columns should the values come?
 ```
 
 > This issue of defining rows and columns may not seem as useful because we are used to dealing with datasets that are created by people who already thought about the issue. <br><br> 
 However, in Urban Analytics, we often create our own datasets from sources that innately don't have well-thought out data structure. For example, there isn't a universally accepted way to convert image data into Excel-like spreadsheet. When converting a free-form text (e.g., Twitter data) into a spreadsheet, you will need to think about how to define your observations and variables.
-
-
 
 ## Issue 2 - Duplicated or redundant rows/columns
 Duplicated rows is a common issue when using API to acquire data. Multiple functions exist in R to deal with duplicates. Most frequently used ones include: **duplicated()** and **distinct()**. 
@@ -131,17 +134,22 @@ dupl_df[!duplicated(dupl_df$name),]
 ```
 
 ### distinct()
-This is a powerful function in dplyr package. It takes variable names as the argument and outputs a data frame in which no-duplicate version of the variables are stored. Notice that by default, this function drops other columns that are not included in the argument. To keep all other columns in the output, you need to set `.keep_all = TRUE argument`.
+It takes variable names as the argument and returns a data frame in which no-duplicate version of the variables are stored. Notice that by default, this function drops columns that are not included in the argument. To keep all other columns in the output, you need to set `.keep_all = TRUE argument`. You can also specify multiple columns, and the function will consider those multiple columns when determining duplicates.
 
-You can also specify multiple columns, and the function will consider those multiple columns when determining duplicates.
 ```{r}
-# Returns a vector, not data frame
+# Remove duplicated rows using 'name' column
 dupl_df %>% 
-  distinct(name) # Try adding .keep_all = TRUE argument 
+  distinct(name)
 
-# Returns a data frame
+# Remove duplicated rows using both 'name' and 'GPA' columns
 dupl_df %>% 
   distinct(name, GPA)
+```
+
+```{r}
+# Remove duplicated rows using 'name' column while keeping other columns.
+dupl_df %>% 
+  distinct(????)
 ```
 
 ## Issue 3 - Multiple variables in one column
@@ -149,47 +157,71 @@ This issue comes in two broad types.
 
 <font color = "pink">**The first type: **</font> Different variables can be concatenated into a long string. A very commonly found example is from Census data: they sometimes return something like "Census Tract 9501, Appling County, Georgia" in **a single column**. It contains at least three variables: Tract, County, and State. 
 
-We can break the string down into pieces using **separate()** from tidyr package. 
+We can break the string down into pieces using **separate()** from `tidyr` package or **str_split_fixed()** from `stringr` package.
 
 * Notice in the print out below the warning message. This is telling you that **separate()** expects that there are equal number of components for each row after the separation; if this isn't the case, it discards the overflown items. Also notice in the second warning that the first row doesn't have _ inside it. So the numeric column is filled with NA. 
 * The `sep` argument sometimes causes issues that are not easily detected. With "Census Tract 9501, Appling County, Georgia", setting `sep=","` will be incorrect because a space is also a character in R. The output would be "Census Tract 9501", " Appling County", " Georgia" -- notice the space in front of county and state name. The correct separator should be `sep = ", "`, *with the space after the comma*.
 
-
 ```{r}
 # A character vector to split
 onecol_df <- data.frame(labels = c('a1','b_2','c_3_2','d_4_1'))
+
 # split the character at _
-onecol_df %>% separate(col = "labels", sep = "_", into = c("alphabet", "numeric")) 
+onecol_df %>% separate(col = "labels", 
+                       sep = "_", 
+                       into = c("alphabet", "numeric")) 
+```
+
+```{r}
+# split the strings using str_split_fixed()
+onecol_df$labels %>% str_split_fixed(pattern = "_", 
+                                     n = 3) 
 ```
 
 <font color = "pink">**The second type:**</font> One column in a data frame can contain another data frame or a list. This is the structure used to construct sf objects (remember the sfc class?). This data structure is frequently found when we convert something like a JSON, which can have nested structure, into a data frame. This list-column isn't actually an issue per se--it is a legitimate data structure that has many use cases. But since it can be a bit unintuitive for some people, let's transform it into a more common data frame.
 
-Let's use the data we downloaded last week. Notice in the print out below that `categories` and `transactions` contains lists and `coordinates` and `location` contains data frames which has another nested structure within it. Note that when we print out,  `coordinates` and `location` are automatically flattened and displayed like normal columns, but that's just in print out. They are still nested.
+Let's use the data we downloaded last week. Notice in the print out below that `categories` and `transactions` contains lists and `coordinates` and `location` contains data frames which has another nested structure within it.
 
 ```{r}
-# Read a subset of Yelp data we downloaded last week
-yelp_data <- read_rds('https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/Lab/module_1/week2/yelp_data.RData')
-# Print to see what's inside
-yelp_data %>% 
-  tibble() %>% 
-  print(width = 1000)
+# Read Yelp data we downloaded last week
+yelp_data <- readRDS(url('https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/Lab/module_1/week1/yelp_data.rds'))
 
+# Print the yelp data
+print(yelp_data)
+```
+
+```{r}
+# Check the class of each column in `yelp_data` using `sapply` and `class`
+sapply(????) %>% print()
+```
+
+```{r}
+# Print "coordinates" column
 yelp_data$coordinates %>% head()
 ```
 
-Let's try flattening the **data frame** within `coordinates`and `location` columns. We can do it using flatten() function in jsonlite package. Currently, `coordinates` column contains a data frame with two columns, `latitude` and `longitude`. 
+Let's try flattening the **data frame** within `coordinates`and `location` columns. We can do it using `flatten()` function in jsonlite package. Currently, `coordinates` column contains a data frame with two columns, `latitude` and `longitude`. 
 
 After applying this function, we can see new columns, e.g., `coordinates.latitudes` and `coordinates.longitude`. When flattening, the new columns names are automatically generated by concatenating the name of the given column and the names of the nested columns within.
 
 ```{r}
 yelp_flat <- yelp_data %>% 
-  jsonlite::flatten() %>% 
-  as_tibble() 
+  jsonlite::flatten()
 
-yelp_flat$coordinates %>% head()
+# Print the flattened yelp data
+print(yelp_data)
 ```
 
-Even after flattening, we still have list-columns remaining. Flattening list-columns can be tricky because, to the best of my knowledge, there is no single function that you can use to flatten any list-column you encounter. Because lists in R are the most flexible way to store data, there can be anything inside a list-column, which makes writing a function that can work universally for any given list-columns challenging. 
+```{r}
+# Check the class of each column in `yelp_flat` using `sapply` and `class`
+sapply(????) %>% print()
+```
+
+```{r}
+yelp_flat$coordinates.latitude %>% head()
+```
+
+Even after flattening, we still have list-columns remaining. Flattening list-columns can be tricky. Because lists in R are the most flexible way to store data, there can be anything inside a list-column, which makes writing a function that can work universally for any given list-columns challenging. 
 
 In our case, a closer look at the list-columns showed that `transaction` and `location.display_address` have relatively simple structure: each component of the list contains a character vector. We can simply concatenate them. The output of the code below will be one character string per row.
 
@@ -202,7 +234,12 @@ yelp_concat <- yelp_flat %>%
            map_chr(., function(x) str_c(x, collapse=", ")))
 ```
 
-Now, `categories` column is slightly more complicated: in each component of the list, there is a data frame with two columns and varying row numbers. I think the easiest way to flatten this column is to write a custom function. The course of action is:
+```{r}
+# Check the class of each column in `yelp_concat` using `sapply` and `class`
+sapply(????) %>% print()
+```
+
+Now, `categories` column is slightly more complicated: in each component of the list, there is a data frame with two columns and varying row numbers. We can write a custom function to flatten this column. The course of action is:
 
 1. Use lapply or map to loop through each component of the list-column.
 2. For each component (which is a data frame), we extract `title` column.
@@ -221,10 +258,8 @@ concate_list <- function(x){
 yelp_flat2 <- yelp_concat %>% 
   mutate(categories = categories %>% map_chr(concate_list))
 
-yelp_flat2 %>% print(width = 1000)
+yelp_flat2 %>% head()
 ```
-
-
 
 
 ## Issue 4 - Missing Values
@@ -235,7 +270,7 @@ There are many functions that can find NAs and drop them. Base R provide **is.na
 
 Similarly, the tidyr package has **drop_na()** function, but I recommend that you exercise caution when using **drop_na()** function. Unlike **is.na()**, **drop_na()** can work without specifying columns. Then, the function will drop every row that have NA in any one of the columns, and only those rows that do not have NA across all columns will be retained. You may end up dropping too many rows for no reason and <font color='pink'>**not even notice it** </font>.
 
-<font color="pink">**A common mistake**</font> is that some people drop rows that have NAs **in columns that they do not use**. If some rows have NAs in columns that you have no intention of using in your analysis, **those is harmless!** (unless those NAs are indicative of other issues..) So, do not blindly drop NAs, as you may lose valuable information for no good reason.
+<font color="pink">**A common mistake**</font> is that some people drop rows that have NAs **in columns that they do not use**. If some rows have NAs in columns that you have no intention of using in your analysis, **those are harmless!** (unless those NAs are indicative of other issues..) So, do not blindly drop NAs, as you may lose valuable information for no good reason.
 
 ```{r}
 # This is the same toy_df from above
@@ -247,10 +282,12 @@ toy_df <- data.frame(name = c("John", "Jane", "Mary"),
 # Dropping NA using is.na()
 toy_df %>% 
   filter(!is.na(treatment_a))
+```
 
-# This check across all columns and drops all rows that have at least one NA.
+```{r}
+# Check across all columns and drop all rows that have at least one NA.
 toy_df %>% 
-  drop_na()
+  ????
 ```
 
 # Tidying Yelp data
@@ -263,10 +300,9 @@ We do have many duplicated rows in our data, which is expected. In practice, we 
 yelp_unique <- yelp_data %>% 
   distinct(id, .keep_all=T)
 
-glue::glue("Before dropping duplicated rows, there were {nrow(my_yelp)} rows. After dropping them, there are {nrow(yelp_unique)} rows") %>% 
+glue::glue("Before dropping duplicated rows, there were {nrow(yelp_data)} rows. After dropping them, there are {nrow(yelp_unique)} rows") %>% 
   print()
 ```
-
 
 #### Issue 3 - Multiple variables in one column
 This is the main issue in Yelp data, caused by the original data format being JSON. 
@@ -296,47 +332,50 @@ There seems to be many missing values in 'price' and 'location' columns. Remembe
 
 In this dataset, missing values in location.address1 are not problem because we have coordinate information. We, however, must drop the four NAs in coordinates.latitude and coordinates.longitude. Sf package cannot handle NAs in coordinates. 
 
-Also, missing values in 'price' column can be an issue, as that's one of the main variables. Assuming that we will be using the price column, let's drop NAs in 'price' column too.
+Also, missing values in 'price' column can be an issue, as that's an important piece of information. Assuming that we will be using the price column, let's drop NAs in 'price' column too.
 
 ```{r}
 # Fist, let's verify that the 4 missing values in lat/long columns are in the same rows.
 identical(is.na(yelp_flat$coordinates.latitude),
           is.na(yelp_flat$coordinates.longitude)) # Yes, they are in the same 4 rows.
-
-# Drop them.
-yelp_dropna1 <- yelp_flat %>% 
-  drop_na(coordinates.longitude)
-
-# Dropping NAs in price
-yelp_dropna2 <- yelp_dropna1 %>% 
-  drop_na(price)
 ```
 
+```{r}
+# Drop rows that have missing values in either `coordinates.longitude` or `price`
+yelp_dropna <- yelp_flat %>% 
+  ????
 
+print(paste0("Before: ", nrow(yelp_flat)))
+print(paste0("Before: ", nrow(yelp_dropna)))
+```
 
 # Additional issue in geographic information in Yelp
 The last plot in the last week's R Markdown document was a map of the downloaded Yelp data. Many points appeared outside the City of Decatur boundary. These are clearly errors. Let's delete them.
 
 ```{r}
 # city boundary
-decatur <- tigris::places("GA") %>% 
+decatur <- tigris::places("GA", progress_bar = FALSE) %>% 
   filter(NAME == 'Decatur') %>% 
   st_transform(4326)
 
-# Converting yelp_dropna2 into a sf object
-yelp_sf <- yelp_dropna2 %>% 
-  st_as_sf(coords=c("coordinates.longitude", "coordinates.latitude"), crs = 4326)
+# Converting yelp_dropna into a sf object
+yelp_sf <- yelp_dropna %>% 
+  st_as_sf(coords=c("coordinates.longitude", "coordinates.latitude"), 
+           crs = 4326)
   
 # sf subsets
 yelp_in <- yelp_sf[decatur, ]
+
+print(paste0("Before: ", nrow(yelp_sf)))
+print(paste0("Before: ", nrow(yelp_in)))
 ```
 
 # Comparing messy vs. tidy
 Through tidying the data, the Yelp data is ready for analysis. What follows below is a summary of what/how the data changed.
 
 ```{r}
-glue::glue("nrow before: {nrow(my_yelp)} -> nrow after: {nrow(yelp_in)} \n
-            ncol before: {ncol(my_yelp)} -> ncol after: {ncol(yelp_in)} \n") %>% 
+glue::glue("nrow before: {nrow(yelp_data)} -> nrow after: {nrow(yelp_in)} \n
+            ncol before: {ncol(yelp_data)} -> ncol after: {ncol(yelp_in)} \n") %>% 
   print()
 ```
 
@@ -344,10 +383,9 @@ glue::glue("nrow before: {nrow(my_yelp)} -> nrow after: {nrow(yelp_in)} \n
 ```{r}
 # Visualize
 tmap_mode("view")
-tm_shape(yelp_in) + tm_dots(col = "price")
+tm_shape(yelp_in) + tm_dots(col = "price") +
+  tm_shape(decatur) + tm_borders()
 ```
-
-
 
 
 # Appending Census Data 
@@ -356,18 +394,25 @@ In the next module, we will go over simple statistical analyses to derive import
 As we've reviewed last week, spatial join can be done using **st_join()** function. This function takes two sf objects of the same CRS and joins them using spatial relationship defined by the predicate function. Remember that the order matters: **st_join(x,y)** will return `x` with `y` attributes appended. **st_join(y,x)** will return `y` with `x` attributes appended. Let's try both.
 
 ```{r}
-# get Census data at the Block Group level
-bg <- get_acs(geography = "block group",
+# Get Census data at the Block Group level
+library(tidycensus)
+
+census_api_key(????)
+
+bg <- get_acs(geography = ????,
               state = "GA",
-          county = c("Dekalb"), 
-          variables = c(hhincome = 'B19013_001'),
-          year = 2021,
-          survey = "acs5", # American Community Survey 5-year estimate
-          geometry = TRUE, # returns sf objects
-          output = "wide") %>% 
+              county = c("Dekalb"), 
+              variables = c(hhincome = 'B19013_001'),
+              year = 2022,
+              survey = ????, # American Community Survey 5-year estimate
+              geometry = ????, # We want sf object
+              output = ????,
+              progress = FALSE) %>% 
   rename(hhincome = hhincomeE) %>% 
   st_transform(4326)
+```
 
+```{r}
 bg_decatur <- bg[decatur,]
 
 # Spatial join
@@ -384,16 +429,16 @@ yelp_census %>% head()
 ```
 
 ```{r}
+# Visualize census data using information from Yelp
 tm_shape(census_yelp %>% group_by(GEOID) %>% summarise(rating=mean(rating))) + 
-  tm_polygons(col = "rating", style = "quantile")
+  tm_polygons(col = "rating")
 ```
 
 ```{r}
-tm_shape(yelp_census) + tm_dots(col="hhincome")
+# Visualize Yelp data using household income information from Census ACS
+tm_shape(????) + tm_dots(????) +
+  tm_shape(decatur) + tm_borders()
 ```
-
-
-
 
 
 # Other useful functions (Optional)
@@ -404,8 +449,8 @@ the arguments for **case_when()** consists of two parts, condition and output. I
 ```{r}
 yelp_in %>% 
   # Use mutate bc the re-coded variable is a new variable
-  mutate(review_count_binary = case_when(review_count > 1000 ~ "many",
-                                         review_count <= 1000 ~ "few")) %>% 
+  mutate(review_count_binary = case_when(review_count > 200 ~ "many",
+                                         review_count <= 200 ~ "few")) %>% 
   # Select these two columns to simplify the print out
   select(review_count, review_count_binary) %>% 
   head()
@@ -425,7 +470,7 @@ Often you need to check how many occurrences there are for each value in a given
 ```{r}
 # Using table
 yelp_in %>% 
-  pull(price) %>% table
+  pull(price) %>% table()
 
 # Using count
 yelp_in %>% 
