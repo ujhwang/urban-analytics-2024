@@ -524,3 +524,9 @@ yelp_sf <- yelp_all %>%
 tm_shape(yelp_sf) +
   tm_dots(col = "review_count", style="quantile")
 ```
+
+# Saving the data
+```{r}
+save(yelp_sf, file = here('yelp_sf.RData'))
+```
+
