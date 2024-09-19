@@ -1,0 +1,51 @@
+---
+title: "Mini-Assignment 2"
+author: 'Uijeong "UJ" Hwang'
+date: '2024-09-18'
+output:
+  rmdformats::downcute:
+    downcute_theme: "chaos"
+    code_folding: show
+---
+
+<style type="text/css">
+  body{
+  font-family: Arial;
+  }
+</style>
+
+# Instructions
+The purpose of this mini assignment is to provide you with an opportunity to digest the class material through hands-on exercises. 
+<br><br>
+
+**To complete this assignment, follow the directions below:**  
+
+1. Prepare the yelp data you downloaded for Mini-Assignment 1.
+    * If you haven't saved the data, collect them again.
+2. Tidy your data by:
+    * Delete duplicated rows.
+    * Flatten nested columns that have multiple variables in one column. Pay particular attention to the “category” column as it may help you to tell some interesting stories about different types of businesses. If the nested column is empty, you don't need to flatten it.
+    * Delete rows that have missing data in *coordinates* variable. It's okay to have NAs in other variables.
+    * Delete rows that fall outside of the boundary of the city you chose.
+3. Tell a short story about finding(s) that interests you (~200 words max). For example, questions you may consider in your story can include (but not limited to):
+    * Have the findings changed before and after the tidying the data?
+    * What's the most frequent rating score? Does that seem to be related with review_count?
+    * (if your Yelp data has price variable) is there any distributional pattern to expensive vs. cheap POIs? Do you think rating and price have some associations?
+    * Do you think there is any pattern between the household income and Yelp rating?
+  
+**Again, the questions above are just examples; none of them are mandatory!**
+
+
+# Logistics
+1. Write your report and R code in a R Markdown document. 
+2. Use the Knit button in R Studio to render it as a HTML document.
+3. Publish the rendered document to RPubs.
+4. <font color="pink">Submit the URL of the RPubs document through Canvas by **9/27/2024 Friday midnight (11:59 PM on Thursday).** </font>
+5. To submit, go to Canvas > Assignments > Mini assignment 2.
+
+
+    
+# Notes
+Try Knitting your R Markdown document and publishing it on RPubs early. This is to ensure you'd have time to troubleshoot if you encounter technical issues.
+
+You can always replace a published document (i.e., republish) or delete the existing one and publish it as a new document. 
