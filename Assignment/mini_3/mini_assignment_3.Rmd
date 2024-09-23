@@ -1,0 +1,52 @@
+---
+title: "Mini-Assignment 3"
+author: 'Uijeong "UJ" Hwang'
+date: '2024-9-25'
+output:
+  rmdformats::downcute:
+    downcute_theme: "chaos"
+    code_folding: show
+---
+
+<style type="text/css">
+  body{
+  font-family: Arial;
+  }
+</style>
+
+
+# Healthcare Equity Analysis
+## Instructions
+In this assignment, you will explore the spatial distribution of hospitals in Fulton and DeKalb counties, and its relationship to various socioeconomic factors. This analysis will help us understand potential inequities in healthcare access across different neighborhoods and demographic groups.
+
+you will need hospital POI data from Yelp (provided via [this link]()) and Census ACS data. You will carefully choose variables in the Census ACS for the analysis, perform exploratory data analysis using these two datasets, and share your insights, including answering this question: ***is the spatial distribution of hospitals in the area equitable?***
+
+**To complete this assignment, follow the directions below:**
+
+1. Import the Yelp data ([link]()) using `st_read` and check if the data is tidy.
+2. Explore variables in the Census ACS 5-year estimate, select variables that you think are suitable for equity analysis, and justify your choice.
+  * To explore the variables, use either NHGIS website or `tidycensus::load_variables`
+3. Download ACS data for those variables for Census Tracts in Fulton and DeKalb counties using `tidycensus`.
+4. Prepare the data to be suitable for your analysis.
+  * Check if any of the variables have NA values; if so, handle them appropriately.
+  * You may need to create new variables such as proportion, density, etc.
+  * You may need to join the Yelp data and ACS data.
+5. Examine the spatial distribution of hospitals from an equity perspective.
+  * Find the right metrics: e.g., the number of hospitals within 0.25 mile from a Tract (using `sf::st_buffer` and `sf::st_intersects`) or the distance to the nearest hospital from a Tract (using `sf::st_distance`).
+  * Share what you found from the analysis with **at least two graphs** and **at least two maps**.
+  * Answer the question: Is the spatial distribution of hospitals in Fulton and DeKalb counties equitable?
+
+# Logistics
+1. Write your report and R code in a R Markdown document. 
+2. Use the Knit button in R Studio to render it as a HTML document.
+3. Publish the rendered document to RPubs.
+4. <font color="pink">Submit the URL of the RPubs document through Canvas by **10/4/2024 Friday midnight (11:59 PM on Friday).** </font>
+5. To submit, go to Canvas > Assignments > Mini assignment 3.
+
+
+
+    
+# Notes
+Try Knitting your R Markdown document and publishing it on RPubs early. This is to ensure you'd have time to troubleshoot if you encounter technical issues.
+
+You can always replace a published document (i.e., republish) or delete the existing one and publish it as a new document. 
