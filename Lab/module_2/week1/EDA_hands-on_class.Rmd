@@ -1,0 +1,369 @@
+---
+title: "Exploratory Data Analysis: Hands-on"
+author: "Originally written by Bon Woo Koo & Subhro Guhathakurta; modified by Uijeong Hwang"
+date: '2024-09-23'
+output:
+  rmdformats::downcute:
+    downcute_theme: "chaos"
+    code_folding: show
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r,message=FALSE, include=FALSE, r,message=FALSE}
+tidycensus::census_api_key(Sys.getenv("census_api_key"))
+library(tidycensus)
+library(sf)
+library(tmap)
+library(jsonlite)
+library(tidyverse)
+library(httr)
+library(jsonlite)
+library(reshape2)
+library(here)
+library(knitr)
+library(skimr)
+library(units)
+ttm()
+```
+
+```{=html}
+<style type="text/css">
+  body{
+  font-family: Arial;
+  }
+</style>
+```
+# Yoga Studio and Gentrification
+
+Gentrification is the process of urban transformation in which
+neighborhoods undergo socioeconomic changes, typically characterized by
+an influx of higher-income residents and investment. This often leads to
+increased property values and rents, which can displace lower-income
+residents and alter the cultural landscape of the area. While
+gentrification can improve infrastructure and amenities, it raises
+concerns about social equity, displacement, and the loss of community
+identity.
+
+> "Seemingly overnight, a yoga studio replaces a barbershop, a coffee café takes over a small grocery, and a multi-story apartment building looms where older single-family homes once stood." ([Katharine Miller, 2024)](https://hai.stanford.edu/news/spotting-visual-signs-gentrification-scale))
+
+In today's lab session, you will be answering this question: *Are yoga studios associated with gentrification?*
+
+## Operational Definition of Gentrification
+
+Gentrification is about change; the transformation of a neighborhood once affordable becoming unaffordable, so we have two conditions: "*once affordable*" and "*becoming unaffordable*".
+
+To create a simple operational definition, let's say:
+
+* Measure of affordability: real estate tax
+* Time period: 2010 - 2019
+* "Once affordable": real estate tax in 2010 is below median value
+* "Becoming unaffordable": change of real estate tax between 2010 and 2019 is greater than the median value
+
+Then we can get these three categories: Gentrifying, Not-gentrifying, and Not-gentrifiable
+
+|                     | **Significant RE Tax Increase (2010-2019)** | **No Significant RE Tax Change/Decrease (2010-2019)** |
+|---------------------|:----------------------------------------:|:-----------------------------:|
+| **Low RE Tax (2010)**   | Gentrifying                            | Not-gentrifying             |
+| **High RE Tax (2010)**  | Gentrified                             | Gentrified                  |
+
+
+## Data
+
+We need: 
+
+* Census ACS "median real estate tax" data for 2010 and 2019 in Fulton and Dekalb Counties
+* Yoga studios within the two counties (will be provided)
+
+### Let's first download the ACS 5-year estimate data for 2010 and 2019 for the two counties at the Tract level
+
+```{r, results="hide"}
+tract_2010 <- suppressMessages(
+  get_acs(geography = ????,
+          state = ????,
+          county = c(????),
+          variables = c(med_re_tax = "B25103_001"),
+          year = 2010,
+          survey = ????, 
+          geometry = TRUE,
+          output = ????)) %>% 
+  select(GEOID, med_re_tax_2010 = med_re_taxE)
+
+tract_2019 <- suppressMessages(
+  get_acs(geography = ????,
+          state = ????
+          county = c(????),
+          variables = c(med_re_tax = "B25103_001"),
+          year = 2019,
+          survey = ????, 
+          geometry = FALSE, # why False?
+          output = ????)) %>% 
+  select(GEOID, med_re_tax_2019 = med_re_taxE)
+```
+
+<br>
+
+### Join the two data and calculate the percentage change of median real estate tax between 2010 and 2019.
+```{r}
+tract <- left_join(tract_2010, 
+                   tract_2019, 
+                   by = "GEOID") %>% 
+  mutate(med_re_tax_change = (med_re_tax_2019 - med_re_tax_2010)/med_re_tax_2010) %>% 
+  drop_na(med_re_tax_change)
+
+```
+
+<br>
+
+### Let's classify Census Tracts by the three categories we defined.
+```{r}
+print(paste0("Median value of median real estate tax in 2019: $", 
+             median(tract$med_re_tax_2010) %>% round(2)))
+
+
+print(paste0("Median value of the percentage change of median real estate tax between 2010 and 2019: ", 
+             median(tract$med_re_tax_change) %>% round(2)))
+
+tract <- tract %>% 
+  mutate(gentri_category = case_when(
+    med_re_tax_2010 >= median(med_re_tax_2010) ~ "Gentrified",
+    med_re_tax_change >= median(med_re_tax_change) ~ "Gentrifying",
+    TRUE ~ "Not-gentrifying"))
+
+print(table(tract$gentri_category))
+```
+
+<br>
+
+### Let's display what we have!
+
+```{r, message=FALSE}
+## tmap mode set to interactive viewing
+tmap_mode("view")
+
+tm_shape(tract) + tm_polygons(col = "med_re_tax_2019")
+tm_shape(tract) + tm_polygons(col = "med_re_tax_change")
+tm_shape(tract) + tm_polygons(col = "gentri_category")
+
+```
+
+<br>
+
+### Now download the Yelp data. This has been done for you.
+
+**To save time in class, we will use the Yelp data that is already downloaded for today's class.**
+
+This data is for Fulton and DeKalb County, GA, and contains Yelp data with categories = "yoga". This data is already cleaned. To read the data into R, we will use st_read() function in sf package.
+
+```{r}
+# Reading the yelp data
+yelp_yoga <- st_read("https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/Lab/module_2/week1/yelp_yoga.geojson")
+```
+
+<br>
+
+### Let's see if the results look fine
+
+Get a summary using `skimr::skim()` and then display it (i.e., the point locations of yoga studios) on the Census Tract map.
+
+```{r, warning=F}
+skim(yelp_yoga)
+
+tm_shape(yelp_yoga) + tm_dots(col="red") + tm_shape(tract) + tm_borders()
+```
+
+## Appending Census data
+
+Joining census data in this case is somewhat different from what we've previously done. We will do the following:
+
+1. make sure the CRS of the two sf objects are same
+2. Calculate how many yoga studios are within each census tract (there will be many tracts with 0 studios) 
+3. Join the two files with the count of Yoga studios
+
+```{r, warning=F}
+## Check to see that the CRS for both the sf files are the same
+head(tract$geometry)
+head(yelp_yoga$geometry)
+
+## It turns out they are NOT! So we need to transform their CRS into the same
+tract <- tract %>% st_transform(crs=4326) # you can skip 'crs='
+yelp_yoga <- yelp_yoga %>% st_transform(crs=4326)
+
+# Join tract geometry with yoga studios
+tract_yoga <- st_join(tract, yelp_yoga %>% mutate(count = 1))
+
+# Calculate the count of yoga studios at the tract level
+tract_yoga_count <- tract_yoga %>%
+  group_by(GEOID) %>%
+  summarise(count = sum(count, na.rm = T))
+
+## Now we are ready to join back the counts of yoga studios to the Tract data
+tract <- tract %>%
+  left_join(tract_yoga_count %>% st_drop_geometry(), 
+            by = "GEOID")
+```
+
+### Make sure that the final dataset we will be using for our analysis is as expected
+
+Let's skim and map the data
+
+```{r}
+????(tract)
+
+# Let's check to see if the points of yoga studios and their counts in the polygon data match
+tm_shape(????) + tm_polygons(col=????) +
+  tm_shape(????) + tm_dots()
+```
+
+## Now we are ready to ask some probing questions about the data
+
+### Are yoga studios more likely be in neighborhoods with ***high*** median real estate tax (2019)?
+
+```{r}
+ggplot(tract, aes(x=????, y=count)) +
+  geom_point() +
+  ylab("Number of Yoga Studios") +
+  xlab("Median Real Estate Tax in Tract")
+```
+
+> Not much of an association...
+
+<br>
+
+### Are yoga studios more likely be in neighborhoods with ***increasing*** median real estate tax?
+
+```{r}
+ggplot(tract, aes(x=????, y=count)) +
+  geom_point() +
+  ylab("Number of Yoga Studios") +
+  xlab("% Change of Real Estate Tax (2010-2019) in Tract")
+```
+
+> Hmm, it's showing some trend?
+
+<br>
+
+### Are yoga studios in **gentrifying neighborhoods**?
+
+```{r}
+tm_shape(tract) + tm_polygons(col=????) +
+  tm_shape(yelp_yoga) +tm_dots()
+```
+
+> Most of yoga studios are in neighborhoods that are already gentrified.
+
+<br>
+
+A good way to quantify what we intuitively grasped from the previous map is to create a "boxplot"
+
+```{r}
+boxplot(count ~ gentri_category, data=tract, 
+        main="Boxplot of Yoga Studios by Neighborhood Type", 
+        xlab="Neighborhood types", 
+        ylab="Yoga studio count")
+```
+
+> Gentrifying neighborhoods have more yoga studios than not-gentrifying neighborhoods, but less than already gentrified neighborhoods.
+
+<br>
+
+Let's convert it into a binary case: whether a Tract has a yoga studio or not.
+
+```{r}
+tract <- tract %>% 
+  mutate(yoga_binary = count > 0)
+
+yoga_binary_summary <- tract %>% 
+  st_drop_geometry() %>% 
+  group_by(yoga_binary, gentri_category) %>% 
+  summarize(n = n()) %>% 
+  ungroup() %>% 
+  mutate(proportion = n / sum(n))
+
+yoga_binary_summary %>% 
+  ggplot(aes(x = gentri_category, y = proportion, fill = yoga_binary)) +
+  geom_bar(stat = 'identity', position = 'fill')
+```
+
+> A similar story to the previous box plot.
+
+## Finally, let's run a regression model.
+
+* Dependent variable: **count of yoga studios**
+* Independent variable: **type of neighborhood in terms of gentrification**
+* Control variables:
+  * **Educational attainment** (Rationale: higher education levels may correlate with interest in yoga)
+  * **Median household income** (Rationale: income levels can influence the presence of amenities like yoga studios)
+  * **Median age** (Rationale: Age demographics could influence the demand for yoga studios)
+  * **Population density** (Rationale: denser areas might have more yoga studios due to higher foot traffic)
+  * **Racial/ethnic composition** (Rationale: demographic makeup might correlate with yoga studio presence)
+  * **% of population who commute by walking** (Rationale: it indicates pedestrian-friendly areas which may be more likely to have yoga studios)
+
+Let's get these control variables.
+
+```{r}
+tract_control_vars <- suppressMessages(
+  get_acs(geography = ????,
+          state = ????,
+          county = c(????),
+          variables = c(edu_bachelor = "B06009_005",
+                        edu_graduate = "B06009_006",
+                        hhincome = "B19013_001",
+                        median_age = "B01002_001",
+                        pop = "B01003_001",
+                        non_hispanic_white = "B03002_003",
+                        commute_walk = "B08101_033",
+                        commute_total = "B08101_001"),
+          year = 2019,
+          survey = ????, 
+          geometry = TRUE,
+          output = ????)) %>% 
+  mutate(high_edu_pct = (edu_bachelorE + edu_graduateE)/popE,
+         hhincome = hhincomeE,
+         median_age = median_ageE,
+         minority_pct = (popE - non_hispanic_whiteE)/popE,
+         commute_walk_pct = commute_walkE/commute_totalE,
+         pop = popE)
+
+# Calculate land area of Census Tract and get population density using the area
+tract_control_vars <- tract_control_vars %>% 
+  mutate(area = st_area(.) %>% set_units(mi^2)) %>%
+  mutate(pop_density = pop/area)
+
+# Remove unnecessary columns including geometry
+tract_control_vars <- tract_control_vars %>% 
+  select(GEOID, high_edu_pct, hhincome, median_age, minority_pct, commute_walk_pct, pop_density) %>% 
+  st_drop_geometry()
+
+# Join the control variables to the original Tract data
+tract <- tract %>% 
+  left_join(tract_control_vars, by = ????)
+```
+
+<br>
+
+Convert the `gentri_category` into a factor column where "Gentrifying" comes first in the category. (I will explain why)
+```{r}
+tract <- tract %>% 
+  mutate(gentri_category = factor(gentri_category, 
+                                  levels = c("Gentrifying",
+                                             "Not-gentrifying",
+                                             "Gentrified")))
+```
+
+<br>
+
+Run multiple linear regression.
+```{r}
+m1 <- lm(count ~ gentri_category + high_edu_pct + hhincome + 
+            median_age + minority_pct + commute_walk_pct + pop_density, 
+          data=tract)
+summary(m1)
+```
+
+> How would you interpret this result?
+
+### So what do you think about our initial question? ***Are yoga studios associated with gentrification?***
+
+### Would the result be different if we use ***median rent*** instead of *median real estate tax*?
