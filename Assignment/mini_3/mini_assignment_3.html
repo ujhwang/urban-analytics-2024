@@ -1692,40 +1692,33 @@ hospitals in Fulton and DeKalb counties, and its relationship to various
 socioeconomic factors. This analysis will help us understand potential
 inequities in healthcare access across different neighborhoods and
 demographic groups.</p>
-<p>you will need hospital POI data from Yelp (provided via <a href>this link</a>) and Census ACS data. You will carefully choose
-variables in the Census ACS for the analysis, perform exploratory data
-analysis using these two datasets, and share your insights, including
-answering this question: <strong><em>is the spatial distribution of
-hospitals in the area equitable?</em></strong></p>
+<p>you will need hospital POI data from Yelp (provided via <a href="https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/Assignment/mini_3/yelp_hospital.geojson">this
+link</a>) and Census ACS data. You will choose variables in the Census
+ACS for the analysis, perform exploratory data analysis using these two
+datasets, and share your insights, including answering this question:
+<strong><em>is the spatial distribution of hospitals in the area
+equitable?</em></strong></p>
 <p><strong>To complete this assignment, follow the directions
 below:</strong></p>
 <ol style="list-style-type: decimal">
-<li>Import the Yelp data (<a href>link</a>) using
-<code>st_read</code> and check if the data is tidy.</li>
-<li>Explore variables in the Census ACS 5-year estimate, select
-variables that you think are suitable for equity analysis, and justify
-your choice.</li>
-</ol>
-<ul>
-<li>To explore the variables, use either NHGIS website or
-<code>tidycensus::load_variables</code></li>
-</ul>
-<ol start="3" style="list-style-type: decimal">
+<li>Import the Yelp data (<a href="https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/Assignment/mini_3/yelp_hospital.geojson">link</a>)
+using <code>st_read</code> and ensure the data is tidy and ready for the
+analysis.</li>
+<li>Explore variables in the Census ACS 5-year estimate, carefully
+select variables that you think are suitable for equity analysis, and
+justify your choice.</li>
 <li>Download ACS data for those variables for Census Tracts in Fulton
 and DeKalb counties using <code>tidycensus</code>.</li>
-<li>Prepare the data to be suitable for your analysis.</li>
-</ol>
+<li>Prepare the data to be suitable for your analysis.
 <ul>
 <li>Check if any of the variables have NA values; if so, handle them
 appropriately.</li>
 <li>You may need to create new variables such as proportion, density,
 etc.</li>
 <li>You may need to join the Yelp data and ACS data.</li>
-</ul>
-<ol start="5" style="list-style-type: decimal">
+</ul></li>
 <li>Examine the spatial distribution of hospitals from an equity
-perspective.</li>
-</ol>
+perspective.
 <ul>
 <li>Find the right metrics: e.g., the number of hospitals within 0.25
 mile from a Tract (using <code>sf::st_buffer</code> and
@@ -1735,7 +1728,8 @@ from a Tract (using <code>sf::st_distance</code>).</li>
 graphs</strong> and <strong>at least two maps</strong>.</li>
 <li>Answer the question: Is the spatial distribution of hospitals in
 Fulton and DeKalb counties equitable?</li>
-</ul>
+</ul></li>
+</ol>
 </div>
 </div>
 <div id="logistics" class="section level1">

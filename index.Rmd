@@ -105,7 +105,7 @@ topic_col <- c(
   [HTML](https://ujhwang.github.io/urban-analytics-2024/Lab/module_1/week2/Module1_Tidy_Yelp.html)) <br> Exploratory Data Analysis [(Slides)](https://ujhwang.github.io/urban-analytics-2024/Lab/module_2/week1/EDA.html)",# 5
   
   "Exploratory Data Analysis: Hands-on ([RMD](https://ujhwang.github.io/urban-analytics-2024/Lab/module_2/week1/EDA_hands-on_class.Rmd),
-  [HTML](https://ujhwang.github.io/urban-analytics-2024/Lab/module_2/week1/EDA_hands-on.html)) <br> Storytelling with Data [(Slides)](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)",# 6
+  [HTML](https://ujhwang.github.io/urban-analytics-2024/Lab/module_2/week1/EDA_hands-on.html)) <br> Storytelling with Data Visualization [(Slides)](https://ujhwang.github.io/urban-analytics-2024/Lab/module_2/week2/storytelling_with_data.html)",# 6
   
   "Interactive Visualization 1 ([RMD](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg),
   [HTML](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg))<br>
@@ -181,7 +181,7 @@ assignment_col <- c(
   "",# 3
   "[Mini 1](https://ujhwang.github.io/urban-analytics-2024/Assignment/mini_1/mini_assignment_1.html) <br> (due <br> Sep 20)",# 4
   "[Mini 2](https://ujhwang.github.io/urban-analytics-2024/Assignment/mini_2/mini_assignment_2.html) <br> (due <br> Sep 27)",# 5
-  "[Mini 3](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg) <br> (due <br> Oct 4)", # 6
+  "[Mini 3](https://ujhwang.github.io/urban-analytics-2024/Assignment/mini_3/mini_assignment_3.html) <br> (due <br> Oct 4)", # 6
   "[Mini 4](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg) <br> (due <br> Oct 11)",# 7
   "[Mini 5](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg) <br> (due <br> Oct 18)",# 8
   "[Major 1](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg) <br> (due <br> Nov 01)",# 9 
