@@ -107,11 +107,9 @@ topic_col <- c(
   "Exploratory Data Analysis: Hands-on ([RMD](https://ujhwang.github.io/urban-analytics-2024/Lab/module_2/week1/EDA_hands-on_class.Rmd),
   [HTML](https://ujhwang.github.io/urban-analytics-2024/Lab/module_2/week1/EDA_hands-on.html)) <br> Storytelling with Data Visualization [(Slides)](https://ujhwang.github.io/urban-analytics-2024/Lab/module_2/week2/storytelling_with_data.html)",# 6
   
-  "Interactive Visualization 1 ([RMD](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg),
-  [HTML](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg))<br>
-  Interactive Visualization 2 
-  ([RMD](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg),
-  [HTML](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)) <br> <b> <span style='color: red; background-color: white'> Student Presentation of Final Project Idea and Review of Literature/Examples (Oct 2) </span></b>",# 7
+  "Visualization: Hands-on
+  ([RMD](https://ujhwang.github.io/urban-analytics-2024/Lab/module_2/week2/visualization_class.Rmd),
+  [HTML](https://ujhwang.github.io/urban-analytics-2024/Lab/module_2/week2/visualization.html)) <br> <b> <span style='color: red; background-color: white'> Student Presentation of Final Project Idea and Review of Literature/Examples (Oct 2) </span></b>",# 7
   
   "Handling Transportation Data in R
   ([Slides](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)) <br> General Transit Feed Specification ([RMD](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg),
