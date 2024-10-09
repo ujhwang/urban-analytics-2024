@@ -1,0 +1,49 @@
+---
+title: "Mini-Assignment 5"
+author: 'Uijeong "UJ" Hwang'
+date: '2024-10-09'
+output:
+  rmdformats::downcute:
+    downcute_theme: "chaos"
+    code_folding: show
+---
+
+<style type="text/css">
+  body{
+  font-family: Arial;
+  }
+</style>
+
+# Instructions
+
+## Fatal Encounters
+
+In 2020, after many frustrations in obtaining the data on police killings of civilians, Brian Burghart of USC began to collect his own data from various sources in the US. He called the database [Fatal Encounters](https://fatalencounters.org/).
+
+The database, as you will see, is quite comprehensive - including name, gender, race, location, disposition of the case, etc. Your assignment is to tell a compelling story about police killings in this country -- it does not have to be comprehensive. Any particular aspect of this dataset might be interesting to highlight and tell a unique story about. There are many stories hidden in the data -- find your own!
+
+**To complete this assignment, follow the directions below:**
+
+1. Download the data from [this link](https://fatalencounters.org/).
+    * Click 'Download FE Database', which will direct you to Google Sheets.
+    * Export the 'Form Responses' sheet into a CSV file (File -> Download -> .csv).
+2. Import the data into R and explore.
+3. Tell a narrative account of your findings (no more than 300 words), supported by at least four interesting graphics/maps.
+
+
+
+# Logistics
+1. Write your report and R code in a R Markdown document. 
+2. Use the Knit button in R Studio to render it as a HTML document.
+3. Publish the rendered document to RPubs.
+4. <font color="pink">Submit the URL of the RPubs document through Canvas by **10/18/2024 Friday midnight (11:59 PM on Friday).** </font>
+5. To submit, go to Canvas > Assignments > Mini assignment 5.
+6. Grades and feedback will be posted through Canvas.
+
+
+
+    
+# Notes
+Try Knitting your R Markdown document and publishing it on RPubs early. This is to ensure you'd have time to troubleshoot if you encounter technical issues.
+
+You can always replace a published document (i.e., republish) or delete the existing one and publish it as a new document. 

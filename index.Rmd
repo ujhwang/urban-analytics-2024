@@ -112,8 +112,8 @@ topic_col <- c(
   [HTML](https://ujhwang.github.io/urban-analytics-2024/Lab/module_2/week2/visualization.html)) <br> <b> <span style='color: red; background-color: white'> Student Presentation of Final Project Idea and Review of Literature/Examples (Oct 2) </span></b>",# 7
   
   "Transportation Data
-  ([Slides](https://ujhwang.github.io/urban-analytics-2024/Lab/module_3/transportation.pdf)) <br> General Transit Feed Specification ([RMD](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg),
-  [HTML](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg))", # 8
+  ([Slides](https://ujhwang.github.io/urban-analytics-2024/Lab/module_3/transportation.pdf)) <br> General Transit Feed Specification ([RMD](https://ujhwang.github.io/urban-analytics-2024/Lab/module_3/GTFS_class.Rmd),
+  [HTML](https://ujhwang.github.io/urban-analytics-2024/Lab/module_3/GTFS.html))", # 8
   
   "Open Street Map ([RMD](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg),
   [HTML](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg))",# 9
@@ -181,7 +181,7 @@ assignment_col <- c(
   "[Mini 2](https://ujhwang.github.io/urban-analytics-2024/Assignment/mini_2/mini_assignment_2.html) <br> (due <br> Sep 27)",# 5
   "[Mini 3](https://ujhwang.github.io/urban-analytics-2024/Assignment/mini_3/mini_assignment_3.html) <br> (due <br> Oct 4)", # 6
   "[Mini 4](https://ujhwang.github.io/urban-analytics-2024/Assignment/mini_4/mini_assignment_4.html) <br> (due <br> Oct 11)",# 7
-  "[Mini 5](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg) <br> (due <br> Oct 18)",# 8
+  "[Mini 5](https://ujhwang.github.io/urban-analytics-2024/Assignment/mini_5/mini_assignment_5.html) <br> (due <br> Oct 18)",# 8
   "[Major 1](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg) <br> (due <br> Nov 01)",# 9 
   "",# 10
   "[Major 2](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg) <br> (due <br> Nov 15)",# 11
