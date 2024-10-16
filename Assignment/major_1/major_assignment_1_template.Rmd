@@ -100,7 +100,7 @@ epsg <- 4326
 
 ```{r}
 # TASK ////////////////////////////////////////////////////////////////////////
-# Download GTFS data using `read_gtfs()` function and assign it in `gtfs` object
+# Download MARTA (Metropolitan Atlanta Rapid Transit Authority) GTFS data using `read_gtfs()` function and assign it to `gtfs` object
 gtfs <- # **YOUR CODE HERE..**
 # //TASK //////////////////////////////////////////////////////////////////////
 
