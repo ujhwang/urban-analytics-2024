@@ -118,7 +118,7 @@ topic_col <- c(
   "Open Street Map ([RMD](https://ujhwang.github.io/urban-analytics-2024/Lab/module_3/2_OSM.Rmd),
   [HTML](https://ujhwang.github.io/urban-analytics-2024/Lab/module_3/2_OSM.html))",# 9
   
-  "Urban Images & Computer Vision [(Slides)](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)<br> Applications of Computer Vision in Urban Studies [(Slides)](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)",# 10
+  "Urban Images & Computer Vision [(Slides)](https://ujhwang.github.io/urban-analytics-2024/Lab/module_4/1_gsv_cv_slides.pdf)<br> Applications of Computer Vision in Urban Studies [(Slides)](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)",# 10
   
   "Sampling & Processing Images ([RMD](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg),
   [HTML](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)) <br>
