@@ -134,7 +134,7 @@ topic_col <- c(
   "Guest Lecture ([link](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg))<br>
   Data Ethics [(Slides)](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)",# 14
   
-  "Assistance with Final Project Related Issues",# 15
+  "Final Project Help",# 15
   
   "<b><span style='color: red; background-color: white'> Student Presentation of Final Project (Dec 2)</span></b><br> Wrap Up"# 16
 )
