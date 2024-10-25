@@ -216,7 +216,7 @@ osm_road <- # **YOUR CODE HERE..**
 
 
 # TASK ////////////////////////////////////////////////////////////////////////
-# 1. Convert osm_road$osm_lines into sfnetworks using as_sfnetwork() function
+# 1. Convert osm_road$osm_lines into sfnetwork using as_sfnetwork() function
 # 2. Activate edges
 # 3. Clean the network using edge_is_multiple(), edge_is_loop(), to_spatial_subdivision(), to_spatial_smooth()
 # 4. Assign the cleaned network to an object named 'osm'
@@ -256,7 +256,7 @@ paths <-
 # =========== NO MODIFICATION ZONE STARTS HERE ===============================
 # Using the `paths` object, get network distances from `home_1` to all other stations.
 dist_all <- map_dbl(1:nrow(paths), function(x){
-  atl_net %>% 
+  osm %>%
     activate("nodes") %>% 
     slice(paths$node_paths[[x]]) %>% 
     st_as_sf("edges") %>% 
@@ -269,8 +269,9 @@ if (any(dist_all == 0)){
   dist_all[dist_all == 0] <- max(dist_all)
 }
 
-# Find the index of the closest station.
+# Find the closest station.
 closest_index <- which.min(dist_all)
+closest_station <- station[closest_index,]
 
 # Find the distance to the closest station.
 closest_dist <- min(dist_all)
@@ -293,7 +294,7 @@ paths_closest <- # **YOUR CODE HERE..**
 
 # TASK ////////////////////////////////////////////////////////////////////////
 # Use filter_stop_times() function to create a subset of stop_times data table
-# for date = 2021-08-14, minimum departure time of 7AM, maximum departure time of 10AM.
+# for date = 2024-11-14, minimum departure time of 7AM, maximum departure time of 10AM.
 # Assign the output to `am_stop_time` object
 am_stop_time <- # **YOUR CODE HERE..**
 # //TASK //////////////////////////////////////////////////////////////////////
@@ -302,7 +303,7 @@ am_stop_time <- # **YOUR CODE HERE..**
 
 # TASK ////////////////////////////////////////////////////////////////////////
 # 1. Use travel_times() function to calculate travel times from the `closest_station` 
-#    to all other stations during time specified in am_stop_time. 
+#    to all other stations during time specified in am_stop_time. Allow ONE transfer.
 # 2. Filter the row for which the value of 'to_stop_name' column 
 #    equals midtown$stop_name. Assign it into `trvt` object.
 trvt <-  # **YOUR CODE HERE..**
@@ -316,7 +317,7 @@ trvt_gtfs_m <- trvt$travel_time/60
 
 # Add the travel time from home to the nearest station and
 # the travel time from the nearest station to Midtown station
-total_trvt <- drop_units(trvt_osm_m) + trvt_gtfs_m
+total_trvt <- trvt_osm_m + trvt_gtfs_m
 # =========== NO MODIFY ZONE ENDS HERE ========================================
 ```
 
@@ -402,6 +403,6 @@ minority <- ggplot(data = home_done,
   theme_bw()
 
 
-ggpubr::ggarrange(inc, wh)
+ggpubr::ggarrange(inc, minority)
 ```
 
