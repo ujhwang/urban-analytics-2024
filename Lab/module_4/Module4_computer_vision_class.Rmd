@@ -30,7 +30,8 @@ We are going to do quick analyses using the semantic segmentation model results.
 
 ## Merge the data processed from Colab back to R. 
 
-If you are having trouble running the Colab script, you may use these files: [geojson](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/Lab/module_4/edges_azi_chamblee.geojson) and [csv](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/Lab/module_4/seg_output.csv).
+If you are having trouble running the Colab script, you may use these files: [geojson](https://ujhwang.github.io/urban-analytics-2024/Lab/module_4/edges_azi_chamblee.geojson) and [csv](https://ujhwang.github.io/urban-analytics-2024/Lab/module_4/seg_output.csv).
+
 
 ```{r}
 # Load the sampled points.
