@@ -122,7 +122,7 @@ topic_col <- c(
   
   "Sampling & Downloading GSV Images ([RMD](https://ujhwang.github.io/urban-analytics-2024/Lab/module_4/Module4_getting_GSV_images_class.Rmd),
   [HTML](https://ujhwang.github.io/urban-analytics-2024/Lab/module_4/Module4_getting_GSV_images.html)) <br>
-  Computer Vision ([Colab](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg), [RMD](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg), [HTML](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg))",# 11
+  Computer Vision ([Colab](https://colab.research.google.com/drive/1RuJeY5EjPJ6ArAxhpeqd3exK881ORmkC?usp=sharing), [RMD](https://ujhwang.github.io/urban-analytics-2024/Lab/module_4/Module4_computer_vision_class.Rmd), [HTML](https://ujhwang.github.io/urban-analytics-2024/Lab/module_4/Module4_computer_vision.html))",# 11
   
   "<b><span style='color: red; background-color: white'> Student Presentation of Final Project Data, Methods, & Preliminary Results (Nov 4)</span></b> <br> Social Media Analysis ([Slides](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg)) <br>",# 12
   
