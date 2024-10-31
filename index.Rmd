@@ -184,7 +184,7 @@ assignment_col <- c(
   "[Mini 5](https://ujhwang.github.io/urban-analytics-2024/Assignment/mini_5/mini_assignment_5.html) <br> (due <br> Oct 18)",# 8
   "[Major 1](https://ujhwang.github.io/urban-analytics-2024/Assignment/major_1/major_assignment_1.html) <br> (due <br> Nov 01)",# 9 
   "",# 10
-  "[Major 2](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg) <br> (due <br> Nov 15)",# 11
+  "[Major 2](https://ujhwang.github.io/urban-analytics-2024/Assignment/major_2/major_assignment_2.html) <br> (due <br> Nov 15)",# 11
   "",# 12
   "[Major 3](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg) <br> (due <br> Nov 29)",# 13
   "",# 14
