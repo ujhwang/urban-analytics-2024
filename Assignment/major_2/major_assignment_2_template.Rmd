@@ -177,9 +177,13 @@ osm_2 <- opq(bbox = tract_2_bb) %>%
 # 2. Clean the network by (1) deleting parallel lines and loops, (2) create missing nodes, and (3) remove pseudo nodes, 
 # 3. Add a new column named length using edge_length() function.
 net1 <- osm_1$osm_lines %>% 
+  # Drop redundant columns 
+  select(osm_id, highway, length) %>% 
   # **YOUR CODE HERE..**
 
 net2 <- osm_2$osm_lines %>% 
+  # Drop redundant columns 
+  select(osm_id, highway, length) %>% 
   # **YOUR CODE HERE..**
   
 # //TASK //////////////////////////////////////////////////////////////////////
@@ -190,8 +194,6 @@ net2 <- osm_2$osm_lines %>%
 edges_1 <- net1 %>% 
   # Extract 'edges'
   st_as_sf("edges") %>% 
-  # Drop redundant columns 
-  select(osm_id, highway, length) %>% 
   # Drop segments that are too short (100m)
   mutate(length = as.vector(length)) %>% 
   filter(length > 100) %>% 
