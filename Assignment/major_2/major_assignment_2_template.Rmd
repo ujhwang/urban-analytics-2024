@@ -204,9 +204,7 @@ edges_1 <- net1 %>%
 # OSM for the unwalkable part
 edges_2 <- net2 %>% 
   # Extract 'edges'
-  st_as_sf("edges") %>% 
-  # Drop redundant columns 
-  select(osm_id, highway, length) %>% 
+  st_as_sf("edges") %>%
   # Drop segments that are too short (100m)
   mutate(length = as.vector(length)) %>% 
   filter(length > 100) %>% 
