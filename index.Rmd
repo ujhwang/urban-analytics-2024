@@ -127,8 +127,8 @@ topic_col <- c(
   "<b><span style='color: red; background-color: white'> Student Presentation of Final Project Data, Methods, & Preliminary Results (Nov 4)</span></b> <br> Social Media Analysis ([Slides](https://ujhwang.github.io/urban-analytics-2024/Lab/module_5/Module5_social_media.pdf)) <br>",# 12
   
   "Getting & Processing Reddit Data in R ([RMD](https://ujhwang.github.io/urban-analytics-2024/Lab/module_5/Reddit_text_analysis_class.Rmd),
-  [HTML](https://ujhwang.github.io/urban-analytics-2024/Lab/module_5/Reddit_text_analysis.html))<br> Sentiment Analysis ([RMD](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg),
-  [HTML](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg), [Colab](https://raw.githubusercontent.com/ujhwang/urban-analytics-2024/main/uc.jpg))
+  [HTML](https://ujhwang.github.io/urban-analytics-2024/Lab/module_5/Reddit_text_analysis.html))<br> Sentiment Analysis ([RMD](https://ujhwang.github.io/urban-analytics-2024/Lab/module_5/sentiment_analysis_class.Rmd),
+  [HTML](https://ujhwang.github.io/urban-analytics-2024/Lab/module_5/sentiment_analysis.html), [Colab](https://colab.research.google.com/drive/1rynmZRcvB052PFaVQ2DsHrMYD1vyPN4Y?usp=sharing))
   ",# 13
   
   "Guest Lecture: Dr. Florina Dutt ([link](https://gatech.zoom.us/j/98476106188))<br>
