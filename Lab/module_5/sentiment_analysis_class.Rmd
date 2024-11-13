@@ -28,9 +28,9 @@ install.packages(packages[!installed_packages])
 invisible(lapply(packages, library, character.only = TRUE))
 ```
 
-# 1. Rule-based Models
-
 Sentiment analysis involves utilizing Natural Language Processing (NLP), along with other related techniques, to identify and quantify affective states, typically from text data. Similar to advancements we've observed in computer vision, recent developments have introduced well-packaged models that are user-friendly and can be readily implemented out of the box. In this chapter, we will explore a range of models, from rudimentary to more advanced ones, to practice their application in diverse scenarios.
+
+# 1. Rule-based Models
 
 ## 1-1. Bag-of-Words (or dictionary) model: `syuzhet` package
 
