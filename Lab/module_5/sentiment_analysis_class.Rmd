@@ -316,7 +316,7 @@ reddit_sentiment_clean <- reddit_sentiment %>%
   # remove stop words
   ????(stop_words, by = "word") %>%
   filter(str_detect(word, "[a-z]")) %>%
-  filter(!word %in% c('flu','shot','shots'))
+  filter(!word %in% c('flu','shot','shots')) # You need to replace this with your keyword
 ```
 
 We are not interested in words that are commonly seen in both positive and negative threads. We can identify words that are uniquely seen in either positive or negative threads using `anti_join`.
