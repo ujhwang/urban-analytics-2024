@@ -379,13 +379,11 @@ seg_output <- read.csv(
 )
 
 # //TASK ////////////////////////////////////////////////////////////////////////
-
-
 # =========== NO MODIFICATION ZONE STARTS HERE ===============================
 # Join the seg_output object back to edges_azi object using node_id as the join key.
-edges_seg_output <- edges_azi %>% 
-  inner_join(seg_output, by="node_id") %>% 
-  select(type, X, Y, node_id, building, sky, tree, road, sidewalk) %>% 
+edges_seg_output <- edges_azi %>%
+  inner_join(seg_output, by=c("node_id" = "img_id")) %>%
+  select(type, X, Y, node_id, building, sky, tree, road, sidewalk, is_walkable) %>%
   mutate(across(c(building, sky, tree, road, sidewalk), function(x) x/(640*640)))
 # =========== NO MODIFY ZONE ENDS HERE ========================================
 ```
