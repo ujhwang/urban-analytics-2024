@@ -164,7 +164,7 @@ reading_col <- c(
         # https://journalofbigdata.springeropen.com/articles/10.1186/s40537-021-00525-8
         # https://dl.acm.org/doi/pdf/10.1145/2001269.2001297
   "",# 13
-  "[1](https://scholarship.law.gwu.edu/cgi/viewcontent.cgi?article=1159&context=faculty_publications), [2](https://openyls.law.yale.edu/handle/20.500.13051/7808), [3](https://web.stanford.edu/dept/HPS/Design%20AI%20so%20that%20it%27s%20fair.pdf), [4](https://www.nature.com/articles/541458a)",# 14
+  "[1](https://scholarship.law.gwu.edu/cgi/viewcontent.cgi?article=1159&context=faculty_publications), [2](https://openyls.law.yale.edu/handle/20.500.13051/7808), [3](https://www.nature.com/articles/541458a)",# 14
   "",# 15
   ""# 16
 ) 
